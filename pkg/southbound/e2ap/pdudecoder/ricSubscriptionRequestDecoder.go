@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
 
-	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicSubscriptionRequestPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (

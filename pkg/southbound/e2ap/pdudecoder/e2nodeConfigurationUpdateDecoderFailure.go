@@ -7,11 +7,11 @@ package pdudecoder
 import (
 	"fmt"
 
-	"github.com/onosproject/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2ap_pdu_descriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2ap_pdu_descriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeE2nodeConfigurationUpdateFailurePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, *e2ap_ies.Cause, *e2ap_ies.TimeToWait,

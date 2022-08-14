@@ -8,12 +8,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/onosproject/onos-e2t/test/e2utils"
+	"github.com/wangxn2015/onos-e2t/test/e2utils"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 // TestUnsubscribeWrongMaster tests e2 subscription to a non-master node

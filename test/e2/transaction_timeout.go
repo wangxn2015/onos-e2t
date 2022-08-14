@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-e2t/test/e2utils"
+	"github.com/wangxn2015/onos-e2t/test/e2utils"
 
 	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 // TestTransactionTimeout tests that channels and subscriptions are removed if their subscription timeout period expires

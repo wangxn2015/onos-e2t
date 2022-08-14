@@ -11,20 +11,20 @@ import (
 	"io"
 	"time"
 
-	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	"github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
+	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	"github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	"github.com/gogo/protobuf/proto"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
 
-	channelstore "github.com/onosproject/onos-e2t/pkg/store/channel"
+	channelstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
 
-	"github.com/onosproject/onos-e2t/pkg/oid"
+	"github.com/wangxn2015/onos-e2t/pkg/oid"
 
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	"github.com/onosproject/onos-lib-go/pkg/northbound"

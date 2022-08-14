@@ -6,8 +6,8 @@ package main
 
 import (
 	"fmt"
-	e2sim "github.com/onosproject/onos-e2t/sim/e2"
 	e2 "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	e2sim "github.com/wangxn2015/onos-e2t/sim/e2"
 	"os"
 	"os/signal"
 )

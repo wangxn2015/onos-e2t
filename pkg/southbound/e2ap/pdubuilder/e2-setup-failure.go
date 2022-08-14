@@ -4,12 +4,12 @@
 package pdubuilder
 
 import (
-	"github.com/onosproject/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
 	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
+	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
 )
 
 func CreateE2SetupFailurePdu(trID int32, cause *e2apies.Cause) (*e2appdudescriptions.E2ApPdu, error) {

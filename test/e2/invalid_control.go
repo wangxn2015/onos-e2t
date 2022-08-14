@@ -14,7 +14,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 type invalidControlTestCase struct {

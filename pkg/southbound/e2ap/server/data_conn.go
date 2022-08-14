@@ -7,21 +7,21 @@ package server
 import (
 	"context"
 
-	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
+	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
 
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 
 	"github.com/google/uuid"
 	e2smtypes "github.com/onosproject/onos-api/go/onos/e2t/e2sm"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2 "github.com/onosproject/onos-e2t/pkg/protocols/e2ap"
 	"github.com/onosproject/onos-lib-go/pkg/uri"
+	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2 "github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap"
 )
 
 // NewE2APConn creates a new E2AP connection

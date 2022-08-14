@@ -6,11 +6,11 @@ package pdubuilder
 import (
 	"fmt"
 
-	"github.com/onosproject/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func NewE2SetupResponse(trID int32, plmnID types.PlmnID, ricID types.RicIdentifier,

@@ -13,14 +13,14 @@ import (
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/onosproject/onos-e2t/pkg/controller/utils"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
 
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 	"github.com/onosproject/onos-lib-go/pkg/controller"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 )
 
 var log = logging.GetLogger()

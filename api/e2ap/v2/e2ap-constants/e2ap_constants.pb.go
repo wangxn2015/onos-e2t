@@ -8,7 +8,7 @@ package e2ap_constants
 
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	_ "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	_ "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

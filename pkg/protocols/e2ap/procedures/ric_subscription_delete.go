@@ -9,12 +9,12 @@ import (
 	"sync"
 	"syscall"
 
-	e2api "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	e2apcommondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2api "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	e2apcommondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 
-	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
 )
 
 // RICSubscriptionDelete is a RIC subscription delete procedure

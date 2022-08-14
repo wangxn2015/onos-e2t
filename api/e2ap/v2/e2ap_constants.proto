@@ -11,7 +11,7 @@ SPDX-License-Identifier: Apache-2.0
 syntax = "proto3";
 
 package e2ap.v2;
-option go_package = "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-constants";
+option go_package = "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-constants";
 
 import "e2ap/v2/e2ap_commondatatypes.proto";
 import "validate/v1/validate.proto";

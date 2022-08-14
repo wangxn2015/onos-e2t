@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/onosproject/onos-e2t/test/utils"
 	"github.com/stretchr/testify/assert"
+	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 // TestE2TConnectionUpdate checks that the control relations are correct

@@ -8,8 +8,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/onosproject/onos-e2t/test/e2utils"
 	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	"github.com/wangxn2015/onos-e2t/test/e2utils"
 
 	e2smkpmv2 "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go/v2/e2sm-kpm-v2-go"
 	"google.golang.org/protobuf/proto"
@@ -18,7 +18,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 // TestSubscriptionMultipleReports tests e2 subscription with multiple reports in one subscription

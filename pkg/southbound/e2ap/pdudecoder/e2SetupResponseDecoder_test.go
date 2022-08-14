@@ -5,9 +5,9 @@
 package pdudecoder
 
 import (
-	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/pdubuilder"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 	"gotest.tools/assert"
 	"testing"
 )

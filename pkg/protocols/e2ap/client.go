@@ -10,7 +10,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/sctp/addressing"
 	"github.com/onosproject/onos-lib-go/pkg/sctp/types"
 
-	"github.com/onosproject/onos-e2t/pkg/protocols/e2ap/procedures"
+	"github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap/procedures"
 
 	sctp "github.com/onosproject/onos-lib-go/pkg/sctp"
 )

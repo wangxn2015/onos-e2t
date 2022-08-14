@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
 
-	e2ap_pdu_descriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	e2ap_pdu_descriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeE2connectionUpdateAcknowledgePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, []*types.E2ConnectionUpdateItem,

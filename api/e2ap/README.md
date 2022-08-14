@@ -36,12 +36,12 @@ has been compiled to:
 * `~/git/vlm/asn1c/asn1c/asn1c`
 
 AND this `onos-e2t` project has been checked out into:
-* `~/go/src/github.com/onosproject/onos-e2t`
+* `~/go/src/github.com/wangxn2015/onos-e2t`
 
 THEN perform the conversion by
 ```bash
 cd ~/eclipse-workspace/asn1-files
-~/git/vlm/asn1c/asn1c/asn1c -B e2ap-v01.01.00.asn1 > ~/go/src/github.com/onosproject/onos-e2t/api/e2ap/v1beta2/e2ap-v01.01.00.proto
+~/git/vlm/asn1c/asn1c/asn1c -B e2ap-v01.01.00.asn1 > ~/go/src/github.com/wangxn2015/onos-e2t/api/e2ap/v1beta2/e2ap-v01.01.00.proto
 ```
 
 > This might produce some warnings like:
@@ -60,7 +60,7 @@ the 6th and 2nd last characters are guilty.
 ## Splitting this single `proto` file
 Run
 ```bash
-cd ~/go/src/github.com/onosproject/onos-e2t/api/e2ap/v1beta2/
+cd ~/go/src/github.com/wangxn2015/onos-e2t/api/e2ap/v1beta2/
 
 ../../../build/bin/csplit-protos.sh e2ap-v01.01.00.proto
 
@@ -145,7 +145,7 @@ Update the script with the new protos
 ## Running `make protos`
 This will generate Go code from the 6 `proto` files
 ```bash
-cd ~/go/src/github.com/onosproject/onos-e2t
+cd ~/go/src/github.com/wangxn2015/onos-e2t
 make protos
 ```
 
@@ -154,11 +154,11 @@ the runs `compile_protos.sh`
 
 The expected output is like:
 ```bash
-docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-e2t \
-	-w /go/src/github.com/onosproject/onos-e2t/api \
+docker run -it -v `pwd`:/go/src/github.com/wangxn2015/onos-e2t \
+	-w /go/src/github.com/wangxn2015/onos-e2t/api \
 	bufbuild/buf:0.27.1 check lint
-docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-e2t \
-	-w /go/src/github.com/onosproject/onos-e2t \
+docker run -it -v `pwd`:/go/src/github.com/wangxn2015/onos-e2t \
+	-w /go/src/github.com/wangxn2015/onos-e2t \
 	--entrypoint build/bin/compile-protos.sh \
 	onosproject/protoc-go:v0.6.7
 api/e2ap/v1beta1/e2ap_constants.proto:16:1: warning: Import e2ap/v1beta1/e2ap_commondatatypes.proto is unused.

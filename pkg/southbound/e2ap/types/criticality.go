@@ -5,9 +5,9 @@
 package types
 
 import (
-	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
 )
 
 type CritDiag struct {

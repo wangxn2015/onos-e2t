@@ -24,27 +24,27 @@ sim-app:
 
 test: # @HELP run the unit tests and source code validation producing a golang style report
 test: build deps linters license
-	GODEBUG=cgocheck=0 go test -race github.com/onosproject/onos-e2t/...
+	GODEBUG=cgocheck=0 go test -race github.com/wangxn2015/onos-e2t/...
 
 jenkins-test:  # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
 jenkins-test: deps license linters
-	GODEBUG=cgocheck=0 TEST_PACKAGES=github.com/onosproject/onos-e2t/... ./build/build-tools/build/jenkins/make-unit
+	GODEBUG=cgocheck=0 TEST_PACKAGES=github.com/wangxn2015/onos-e2t/... ./build/build-tools/build/jenkins/make-unit
 
 coverage: # @HELP generate unit test coverage data
 coverage: build deps linters
 	./build/bin/coveralls-coverage
 
 buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
-	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-e2t \
-		-v `pwd`/../onos-lib-go/api/asn1:/go/src/github.com/onosproject/onos-e2t/api/asn1 \
-		-w /go/src/github.com/onosproject/onos-e2t/api \
+	docker run -it -v `pwd`:/go/src/github.com/wangxn2015/onos-e2t \
+		-v `pwd`/../onos-lib-go/api/asn1:/go/src/github.com/wangxn2015/onos-e2t/api/asn1 \
+		-w /go/src/github.com/wangxn2015/onos-e2t/api \
 		bufbuild/buf:${BUF_VERSION} lint --path e2ap
 
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos: buflint
-	docker run -it -v `pwd`:/go/src/github.com/onosproject/onos-e2t \
+	docker run -it -v `pwd`:/go/src/github.com/wangxn2015/onos-e2t \
 		-v `pwd`/../onos-lib-go:/go/src/github.com/onosproject/onos-lib-go \
-		-w /go/src/github.com/onosproject/onos-e2t \
+		-w /go/src/github.com/wangxn2015/onos-e2t \
 		--entrypoint build/bin/compile-protos.sh \
 		onosproject/protoc-go:${ONOS_PROTOC_VERSION}
 
@@ -91,5 +91,5 @@ jenkins-publish: jenkins-tools # @HELP Jenkins calls this to publish artifacts
 
 clean:: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor ./cmd/onos-e2t/onos-e2t ./cmd/onos/onos
-	go clean -testcache github.com/onosproject/onos-e2t/...
+	go clean -testcache github.com/wangxn2015/onos-e2t/...
 
