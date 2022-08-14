@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 # onos-e2t
 E2 AP Termination module for ONOS SD-RAN (µONOS Architecture)
+wxnn-0.11.0
 wxnn
 ## Overview
 
