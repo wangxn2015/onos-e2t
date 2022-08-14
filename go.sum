@@ -826,14 +826,14 @@ github.com/onosproject/helmit v0.6.19 h1:2Il7qhJhUjYFdweDaOzgPanUArDNGRs8SaLV3tx
 github.com/onosproject/helmit v0.6.19/go.mod h1:4LUwMtLcV0njiCEcAoVdzoiRfit+04z4Yn7z8lXSuMk=
 github.com/onosproject/onos-api/go v0.7.110/go.mod h1:CaFf0659DTSP/8LAwuKv9p9/xFPcx7fmcxC/dlSi8qo=
 github.com/onosproject/onos-api/go v0.8.0/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
+github.com/onosproject/onos-api/go v0.8.30/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
+github.com/onosproject/onos-api/go v0.9.3/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
 github.com/onosproject/onos-api/go v0.9.29 h1:dpQUoTkZiA61wRcg/wxCjc94ZYVBJiCBc3Sd80qDFkA=
 github.com/onosproject/onos-api/go v0.9.29/go.mod h1:0hdMkFFN2AyKLHMiJVP3ZE61QgSYfNXHiI4BJ/Ry7UI=
 github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go v0.8.6 h1:TIERXelYjUQGOElslIwXvm+x0+wKSXY8C2krO3kOZkw=
 github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go v0.8.6/go.mod h1:uOYGODVIOA81VMct7JuEQzDy2zR1IYZguED0FehFJUI=
 github.com/onosproject/onos-e2-sm/servicemodels/e2sm_rc_pre_go v0.8.6 h1:dwJlI/iL1H4ACTvq9f05XSxZ4a1bCvlXUseyUb5Z7Ck=
 github.com/onosproject/onos-e2-sm/servicemodels/e2sm_rc_pre_go v0.8.6/go.mod h1:3YCX+VqOySN+r7Kl6sOqK/9OtLQ81cXdidfRsf6+EI8=
-github.com/onosproject/onos-e2t v0.11.7 h1:LXm+8BZ8xb7+tYm7Lpd/BfvgCtWFGPPglsKGf8Q9WhU=
-github.com/onosproject/onos-e2t v0.11.7/go.mod h1:lwOxVtG63hPCfiWYYZLq3KArB8pR3CX+MHVNu+TGT5k=
 github.com/onosproject/onos-lib-go v0.8.1/go.mod h1:1klcUPfLoXPVu4fzM/sYi1V3Pggm2NRbY2fTzG2W1HY=
 github.com/onosproject/onos-lib-go v0.8.12/go.mod h1:rWssBjfhahhHQy4wW5PBUtjTPwJlXAixHxgfq/3PO3E=
 github.com/onosproject/onos-lib-go v0.8.13/go.mod h1:rWssBjfhahhHQy4wW5PBUtjTPwJlXAixHxgfq/3PO3E=
@@ -841,6 +841,7 @@ github.com/onosproject/onos-lib-go v0.8.17 h1:FQsxv46HVPnajVcEZNnrz1D+/w4C0VqZtP
 github.com/onosproject/onos-lib-go v0.8.17/go.mod h1:rWssBjfhahhHQy4wW5PBUtjTPwJlXAixHxgfq/3PO3E=
 github.com/onosproject/onos-proxy v0.1.0 h1:scA9UfqiclviBjR9SoRqSN5YiO+vrGsg7AYaDFMWGd0=
 github.com/onosproject/onos-proxy v0.1.0/go.mod h1:Julz7LLRkjnwIvioNEI1CjpujpxoA33vOdWSs0/wY9I=
+github.com/onosproject/onos-ric-sdk-go v0.8.8/go.mod h1:R3PpM6nLtjXIpXNwvf0gEOPMXioJpqqmjCxg3PmwCrg=
 github.com/onosproject/onos-ric-sdk-go v0.8.11 h1:KjdAcLdhiVeUr4HqZ5MnyyZaFAYHXKssEG+dIl5M84k=
 github.com/onosproject/onos-ric-sdk-go v0.8.11/go.mod h1:+eN6U8IQSVrxsnL44vfeWV+3gDqkmj80/h9wGM7sYTQ=
 github.com/onosproject/onos-test v0.6.4 h1:ocJhMv5mZ5RsojkhBUadE68Q6uSgBZpyDDjnwOPmu6g=
@@ -1061,6 +1062,8 @@ github.com/vishvananda/netlink v1.1.1-0.20201029203352-d40f9887b852/go.mod h1:tw
 github.com/vishvananda/netns v0.0.0-20180720170159-13995c7128cc/go.mod h1:ZjcWmFBXmLKZu9Nxj3WKYEafiSqer2rnvPr0en9UNpI=
 github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df/go.mod h1:JP3t17pCcGlemwknint6hfoeCVQrEMVwxRLRjXpq+BU=
 github.com/vishvananda/netns v0.0.0-20200728191858-db3c7e526aae/go.mod h1:DD4vA1DwXk04H54A1oHXtwZmA0grkVMdPxx/VGLCah0=
+github.com/wangxn2015/onos-e2t v1.11.0 h1:kCuyDFexqdYqTIbLyxYNFP6wvMJrtBjSrz80G5D22LM=
+github.com/wangxn2015/onos-e2t v1.11.0/go.mod h1:pidGyUcq/pG1Tb9lQ+vDEWpyma0ihOq6CNpdkzCbTSo=
 github.com/willf/bitset v1.1.11-0.20200630133818-d5bec3311243/go.mod h1:RjeCKbqT1RxIR/KWY6phxZiaY1IyutSBfGjNPySAYV4=
 github.com/willf/bitset v1.1.11/go.mod h1:83CECat5yLh5zVOf4P1ErAgKA5UDvKtgyUABdr3+MjI=
 github.com/xdg-go/pbkdf2 v1.0.0/go.mod h1:jrpuAogTd400dnrH08LKmI/xc1MbPOebTwRqcT5RDeI=
