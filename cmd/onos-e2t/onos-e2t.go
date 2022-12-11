@@ -38,7 +38,7 @@ func main() {
 
 	flag.Parse()
 
-	log.Info("Starting onos-e2t")
+	log.Info("Starting onos-e2t now...")
 	cfg := manager.Config{
 		CAPath:              *caPath,
 		KeyPath:             *keyPath,
