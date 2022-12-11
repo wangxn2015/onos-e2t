@@ -12,12 +12,12 @@ import (
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
 
 	"github.com/wangxn2015/onos-e2t/test/e2utils"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	e2smrcpreies "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_rc_pre_go/v2/e2sm-rc-pre-v2-go"
+	e2smrcpreies "github.com/wangxn2015/onos-e2-sm/servicemodels/e2sm_rc_pre_go/v2/e2sm-rc-pre-v2-go"
 	"google.golang.org/protobuf/proto"
 
 	ransimtypes "github.com/onosproject/onos-api/go/onos/ransim/types"

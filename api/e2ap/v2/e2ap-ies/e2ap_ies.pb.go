@@ -10,7 +10,7 @@ import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 	_ "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-constants"
-	asn1 "github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
+	asn1 "github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

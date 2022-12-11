@@ -14,14 +14,14 @@ import (
 
 	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	"github.com/google/uuid"
 	e2smtypes "github.com/onosproject/onos-api/go/onos/e2t/e2sm"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-lib-go/pkg/uri"
 	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
 	e2 "github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap"
+	"github.com/wangxn2015/onos-lib-go/pkg/uri"
 )
 
 // NewE2APConn creates a new E2AP connection

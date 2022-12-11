@@ -10,11 +10,11 @@ import (
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 
-	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
 
 	"google.golang.org/protobuf/proto"
 
-	e2smrcpreies "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_rc_pre_go/v2/e2sm-rc-pre-v2-go"
+	e2smrcpreies "github.com/wangxn2015/onos-e2-sm/servicemodels/e2sm_rc_pre_go/v2/e2sm-rc-pre-v2-go"
 
 	"github.com/stretchr/testify/assert"
 

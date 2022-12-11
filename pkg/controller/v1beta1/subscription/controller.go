@@ -26,12 +26,12 @@ import (
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
 	"github.com/wangxn2015/onos-e2t/pkg/config"
 	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 const defaultTimeout = 30 * time.Second

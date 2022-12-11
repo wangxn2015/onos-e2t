@@ -21,14 +21,14 @@ import (
 
 	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
 
-	"github.com/onosproject/onos-lib-go/pkg/certs"
-	"github.com/onosproject/onos-lib-go/pkg/env"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/onos-lib-go/pkg/northbound"
 	"github.com/wangxn2015/onos-e2t/pkg/controller/mastership"
 	subctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/channel"
 	taskctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/subscription"
 	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	"github.com/wangxn2015/onos-lib-go/pkg/certs"
+	"github.com/wangxn2015/onos-lib-go/pkg/env"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
 )
 
 var log = logging.GetLogger()

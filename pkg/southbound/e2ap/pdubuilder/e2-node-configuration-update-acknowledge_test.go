@@ -5,8 +5,8 @@ package pdubuilder
 
 import (
 	"encoding/hex"
-	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/encoder"
+	"github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
 	"testing"
 
 	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"

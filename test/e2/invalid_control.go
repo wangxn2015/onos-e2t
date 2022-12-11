@@ -8,11 +8,11 @@ import (
 	"context"
 	"testing"
 
-	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
 
 	ransimtypes "github.com/onosproject/onos-api/go/onos/ransim/types"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	"github.com/wangxn2015/onos-e2t/test/utils"
 )

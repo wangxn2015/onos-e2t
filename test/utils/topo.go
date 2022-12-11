@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	toposdk "github.com/onosproject/onos-ric-sdk-go/pkg/topo"
+	toposdk "github.com/wangxn2015/onos-ric-sdk-go/pkg/topo"
 
 	"github.com/stretchr/testify/assert"
 

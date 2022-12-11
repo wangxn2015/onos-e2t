@@ -8,13 +8,13 @@ import (
 	"context"
 	"io"
 
-	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
+	"github.com/wangxn2015/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc/codes"
 
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 	"google.golang.org/grpc"
 )
 

@@ -8,9 +8,9 @@ import (
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/encoder"
 	"testing"
 
-	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
 	"gotest.tools/assert"
 )
 

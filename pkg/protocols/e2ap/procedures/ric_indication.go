@@ -7,7 +7,7 @@ package procedures
 import (
 	"context"
 
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	e2api "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
 

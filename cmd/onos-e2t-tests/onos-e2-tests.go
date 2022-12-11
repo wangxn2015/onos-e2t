@@ -5,8 +5,8 @@
 package main
 
 import (
-	"github.com/onosproject/helmit/pkg/registry"
-	"github.com/onosproject/helmit/pkg/test"
+	"github.com/wangxn2015/helmit/pkg/registry"
+	"github.com/wangxn2015/helmit/pkg/test"
 	"github.com/wangxn2015/onos-e2t/test/e2"
 )
 

@@ -8,15 +8,15 @@ import (
 	"context"
 	"time"
 
-	"github.com/onosproject/onos-lib-go/pkg/env"
+	"github.com/wangxn2015/onos-lib-go/pkg/env"
 
 	gogotypes "github.com/gogo/protobuf/types"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
 	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 const (

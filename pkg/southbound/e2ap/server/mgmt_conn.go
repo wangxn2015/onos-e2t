@@ -5,7 +5,7 @@
 package server
 
 import (
-	"github.com/onosproject/onos-lib-go/pkg/uri"
+	"github.com/wangxn2015/onos-lib-go/pkg/uri"
 
 	"time"
 

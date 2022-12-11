@@ -43,7 +43,7 @@ buflint: #@HELP run the "buf check lint" command on the proto files in 'api'
 protos: # @HELP compile the protobuf files (using protoc-go Docker)
 protos: buflint
 	docker run -it -v `pwd`:/go/src/github.com/wangxn2015/onos-e2t \
-		-v `pwd`/../onos-lib-go:/go/src/github.com/onosproject/onos-lib-go \
+		-v `pwd`/../onos-lib-go:/go/src/github.com/wangxn2015/onos-lib-go \
 		-w /go/src/github.com/wangxn2015/onos-e2t \
 		--entrypoint build/bin/compile-protos.sh \
 		onosproject/protoc-go:${ONOS_PROTOC_VERSION}

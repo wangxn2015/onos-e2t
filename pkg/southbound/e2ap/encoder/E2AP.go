@@ -8,9 +8,9 @@ import (
 	"encoding/hex"
 	"github.com/wangxn2015/onos-e2t/api/e2ap/v2/choiceOptions"
 
-	"github.com/onosproject/onos-lib-go/pkg/asn1/aper"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/wangxn2015/onos-lib-go/pkg/asn1/aper"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()

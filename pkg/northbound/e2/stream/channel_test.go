@@ -7,12 +7,12 @@ package stream
 import (
 	"context"
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
 	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 	"testing"
 	"time"
 )

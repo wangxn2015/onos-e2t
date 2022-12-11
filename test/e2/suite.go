@@ -5,12 +5,12 @@
 package e2
 
 import (
-	"github.com/onosproject/helmit/pkg/helm"
-	"github.com/onosproject/helmit/pkg/input"
-	"github.com/onosproject/helmit/pkg/test"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
-	testutils "github.com/onosproject/onos-ric-sdk-go/pkg/utils"
+	"github.com/wangxn2015/helmit/pkg/helm"
+	"github.com/wangxn2015/helmit/pkg/input"
+	"github.com/wangxn2015/helmit/pkg/test"
 	"github.com/wangxn2015/onos-e2t/test/utils"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	testutils "github.com/wangxn2015/onos-ric-sdk-go/pkg/utils"
 )
 
 func init() {

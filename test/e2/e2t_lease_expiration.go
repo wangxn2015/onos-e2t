@@ -5,9 +5,9 @@
 package e2
 
 import (
-	"github.com/onosproject/helmit/pkg/kubernetes"
-	"github.com/onosproject/helmit/pkg/kubernetes/core/v1"
 	"github.com/onosproject/onos-api/go/onos/topo"
+	"github.com/wangxn2015/helmit/pkg/kubernetes"
+	"github.com/wangxn2015/helmit/pkg/kubernetes/core/v1"
 	"github.com/wangxn2015/onos-e2t/test/e2utils"
 	"testing"
 	"time"

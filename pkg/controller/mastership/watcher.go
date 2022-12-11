@@ -11,7 +11,7 @@ import (
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
-	"github.com/onosproject/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100

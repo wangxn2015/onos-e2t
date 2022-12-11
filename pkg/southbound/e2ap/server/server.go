@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 
 	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
 

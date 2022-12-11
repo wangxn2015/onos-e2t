@@ -12,9 +12,9 @@ import (
 	"sync"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
 	chanstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
 	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100

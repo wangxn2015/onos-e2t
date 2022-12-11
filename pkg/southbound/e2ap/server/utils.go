@@ -11,9 +11,9 @@ import (
 	uuid2 "github.com/google/uuid"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-lib-go/pkg/uri"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/pdudecoder"
 	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-lib-go/pkg/uri"
 )
 
 func GetNodeID(nodeID []byte, length int) topoapi.ID {

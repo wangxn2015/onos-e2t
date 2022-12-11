@@ -9,15 +9,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/onosproject/helmit/pkg/kubernetes"
+	"github.com/wangxn2015/helmit/pkg/kubernetes"
 
 	"github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	e2smkpmv2 "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go/v2/e2sm-kpm-v2-go"
-	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
 	"github.com/stretchr/testify/assert"
+	e2smkpmv2 "github.com/wangxn2015/onos-e2-sm/servicemodels/e2sm_kpm_v2_go/v2/e2sm-kpm-v2-go"
 	"github.com/wangxn2015/onos-e2t/test/e2utils"
 	"github.com/wangxn2015/onos-e2t/test/utils"
+	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
 	"google.golang.org/protobuf/proto"
 )
 
