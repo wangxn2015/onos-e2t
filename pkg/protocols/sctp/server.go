@@ -7,11 +7,11 @@ package sctp
 import (
 	"net"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/sctp/addressing"
+	"github.com/onosproject/onos-lib-go/pkg/sctp/addressing"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
-	"github.com/wangxn2015/onos-lib-go/pkg/sctp/listener"
-	"github.com/wangxn2015/onos-lib-go/pkg/sctp/types"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/sctp/listener"
+	"github.com/onosproject/onos-lib-go/pkg/sctp/types"
 )
 
 var log = logging.GetLogger()
@@ -83,7 +83,7 @@ func (s *Server) Serve(handler Handler) error {
 				continue
 			}
 
-			log.Infof("Accepted connection from %s", conn.RemoteAddr())
+			log.Warnf("Accepted connection from %s", conn.RemoteAddr())
 			go handler(conn)
 		}
 	}()

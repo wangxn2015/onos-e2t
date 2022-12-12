@@ -5,14 +5,14 @@ package pdubuilder
 
 import (
 	"encoding/hex"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/encoder"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/encoder"
 	"testing"
 
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
-	"github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
+	"github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 	"gotest.tools/assert"
 )
 

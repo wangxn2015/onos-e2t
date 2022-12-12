@@ -8,15 +8,15 @@ import (
 	"context"
 	"sync"
 
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
-	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -147,7 +147,7 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 
 	go func() {
 		for event := range eventCh {
-			log.Debugf("Received topo event '%s'", event.Object.ID)
+			log.Infof("Received topo event '%s'", event.Object.ID)
 			if entity, ok := event.Object.Obj.(*topoapi.Object_Entity); ok &&
 				entity.Entity.KindID == topoapi.E2NODE {
 				subs, err := w.subs.List(ctx)

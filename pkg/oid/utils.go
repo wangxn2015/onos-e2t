@@ -12,7 +12,7 @@ import (
 
 // ModelIDToOid converts service model ID to OID
 func ModelIDToOid(r Registry, name string, version string) (types.OID, error) {
-	log.Debugf("Converting service model ID %s:%s to the corresponding OID", name, version)
+	log.Infof("Converting service model ID %s:%s to the corresponding OID", name, version)
 	if name == "" || version == "" {
 		return "", errors.New("service model name and version must be specified")
 	}

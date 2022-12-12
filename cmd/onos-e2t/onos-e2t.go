@@ -10,8 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/wangxn2015/onos-e2t/pkg/manager"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-e2t/pkg/manager"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 type arrayFlags []string
@@ -28,6 +28,7 @@ func (i *arrayFlags) Set(value string) error {
 var log = logging.GetLogger()
 
 func main() {
+	logging.SetLevel(logging.InfoLevel)
 	var serviceModelPlugins arrayFlags
 	flag.Var(&serviceModelPlugins, "serviceModel", "names of service model plugins to load (repeated)")
 	caPath := flag.String("caPath", "", "path to CA certificate")
@@ -38,7 +39,7 @@ func main() {
 
 	flag.Parse()
 
-	log.Info("Starting onos-e2t now...")
+	log.Warn("Starting onos-e2t")
 	cfg := manager.Config{
 		CAPath:              *caPath,
 		KeyPath:             *keyPath,

@@ -11,7 +11,6 @@ import (
 	"net/mail"
 	"net/url"
 	"regexp"
-	"sort"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -32,7 +31,6 @@ var (
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
-	_ = sort.Sort
 )
 
 // Validate checks the field values on ProtocolIeContainer001 with the rules
@@ -94,7 +92,6 @@ func (m *ProtocolIeContainer001) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeContainer001MultiError(errors)
 	}
-
 	return nil
 }
 
@@ -225,7 +222,6 @@ func (m *ProtocolIeSingleContainer001) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeSingleContainer001MultiError(errors)
 	}
-
 	return nil
 }
 
@@ -359,7 +355,6 @@ func (m *ProtocolIeField001) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeField001MultiError(errors)
 	}
-
 	return nil
 }
 
@@ -495,7 +490,6 @@ func (m *ProtocolIeContainerPair) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeContainerPairMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -597,7 +591,6 @@ func (m *ProtocolIeFieldPair) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeFieldPairMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -733,7 +726,6 @@ func (m *ProtocolIeContainerList) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeContainerListMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -869,7 +861,6 @@ func (m *ProtocolIeContainerPairList) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeContainerPairListMultiError(errors)
 	}
-
 	return nil
 }
 

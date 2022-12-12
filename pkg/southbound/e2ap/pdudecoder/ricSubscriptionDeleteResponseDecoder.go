@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicSubscriptionDeleteResponsePdu(e2apPdu *e2appdudescriptions.E2ApPdu) (
@@ -29,17 +29,17 @@ func DecodeRicSubscriptionDeleteResponsePdu(e2apPdu *e2appdudescriptions.E2ApPdu
 
 	for _, v := range ricSubscriptionDelete.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDRicrequestID) {
-			if v.GetValue().GetRicrequestId() == nil {
+			if v.GetValue().GetRrId() == nil {
 				return nil, nil, fmt.Errorf("error E2APpdu does not have id-RICrequestID (mandatory)")
 			}
-			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRicrequestId().GetRicRequestorId())
-			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRicrequestId().GetRicInstanceId())
+			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRrId().GetRicRequestorId())
+			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRrId().GetRicInstanceId())
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionID) {
-			if v.GetValue().GetRanfunctionId() == nil {
+			if v.GetValue().GetRfId() == nil {
 				return nil, nil, fmt.Errorf("error E2APpdu does not have id-RANfunctionID (mandatory)")
 			}
-			ranFunctionID = types.RanFunctionID(v.GetValue().GetRanfunctionId().GetValue())
+			ranFunctionID = types.RanFunctionID(v.GetValue().GetRfId().GetValue())
 		}
 	}
 

@@ -6,8 +6,8 @@ package utils
 
 import (
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-lib-go/pkg/env"
-	"github.com/wangxn2015/onos-lib-go/pkg/uri"
+	"github.com/onosproject/onos-lib-go/pkg/env"
+	"github.com/onosproject/onos-lib-go/pkg/uri"
 )
 
 // GetE2TID gets E2T URI

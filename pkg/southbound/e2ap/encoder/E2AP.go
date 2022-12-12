@@ -6,39 +6,38 @@ package encoder
 
 import (
 	"encoding/hex"
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2/choiceOptions"
 
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-lib-go/pkg/asn1/aper"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-lib-go/pkg/asn1/aper"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
 
 func PerEncodeE2ApPdu(e2ap *e2appdudescriptions.E2ApPdu) ([]byte, error) {
 
-	log.Debugf("Obtained E2AP-PDU message is\n%v", e2ap)
+	log.Infof("Obtained E2AP-PDU message is\n%v", e2ap)
 
-	per, err := aper.MarshalWithParams(e2ap, "choiceExt", choiceOptions.E2ApPduChoicemap, choiceOptions.E2ApPduCanonicalChoicemap)
+	per, err := aper.MarshalWithParams(e2ap, "choiceExt", e2appdudescriptions.E2ApPduChoicemap, e2appdudescriptions.E2ApPduCanonicalChoicemap)
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("Encoded E2AP-PDU PER bytes are\n%v", hex.Dump(per))
+	log.Infof("Encoded E2AP-PDU PER bytes are\n%v", hex.Dump(per))
 
 	return per, nil
 }
 
 func PerDecodeE2ApPdu(per []byte) (*e2appdudescriptions.E2ApPdu, error) {
 
-	log.Debugf("Obtained E2AP-PDU PER bytes are\n%v", hex.Dump(per))
+	log.Infof("Obtained E2AP-PDU PER bytes are\n%v", hex.Dump(per))
 
 	result := e2appdudescriptions.E2ApPdu{}
-	err := aper.UnmarshalWithParams(per, &result, "choiceExt", choiceOptions.E2ApPduChoicemap, choiceOptions.E2ApPduCanonicalChoicemap)
+	err := aper.UnmarshalWithParams(per, &result, "choiceExt", e2appdudescriptions.E2ApPduChoicemap, e2appdudescriptions.E2ApPduCanonicalChoicemap)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Debugf("Decoded E2AP-PDU from PER is\n%v", &result)
+	log.Infof("Decoded E2AP-PDU from PER is\n%v", &result)
 
 	return &result, nil
 }

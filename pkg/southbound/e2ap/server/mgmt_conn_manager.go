@@ -8,7 +8,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 )
 
 // MgmtConnManager management connection manager interface
@@ -44,7 +44,7 @@ func (m *mgmtConnManager) processEvents() {
 }
 
 func (m *mgmtConnManager) processEvent(conn *ManagementConn) {
-	log.Infof("Notifying management connection:", conn.ID)
+	log.Warnf("Notifying management connection:", conn.ID)
 	m.watchersMu.RLock()
 	for _, watcher := range m.watchers {
 		watcher <- conn
@@ -53,14 +53,14 @@ func (m *mgmtConnManager) processEvent(conn *ManagementConn) {
 }
 
 func (m *mgmtConnManager) open(conn *ManagementConn) {
-	log.Infof("Opened management connection %s", conn.ID)
+	log.Warnf("Opened management connection %s", conn.ID)
 	m.connsMu.Lock()
 	m.conns[conn.ID] = conn
 	m.connsMu.Unlock()
 	m.eventCh <- conn
 	go func() {
 		<-conn.Context().Done()
-		log.Infof("Closing management connection %s", conn.ID)
+		log.Warnf("Closing management connection %s", conn.ID)
 		m.connsMu.Lock()
 		delete(m.conns, conn.ID)
 		m.connsMu.Unlock()

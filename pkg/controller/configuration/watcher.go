@@ -9,9 +9,9 @@ import (
 	"sync"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -43,7 +43,7 @@ func (w *MgmtConnWatcher) Start(ch chan<- controller.ID) error {
 
 	go func() {
 		for conn := range w.connCh {
-			log.Debugf("Received management Connection event'%s'", conn.ID)
+			log.Infof("Received management Connection event'%s'", conn.ID)
 			ch <- controller.NewID(conn.ID)
 		}
 		close(ch)
@@ -98,7 +98,7 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 
 			if relation, ok := event.Object.Obj.(*topoapi.Object_Relation); ok {
 				if relation.Relation.KindID == topoapi.CONTROLS {
-					log.Debugf("Received control relation event: %+v", event.Object.ID)
+					log.Infof("Received control relation event: %+v", event.Object.ID)
 					for _, conn := range conns {
 						if conn.E2NodeID == relation.Relation.GetTgtEntityID() {
 							ch <- controller.NewID(conn.ID)
@@ -120,14 +120,14 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 
 			if entity, ok := event.Object.Obj.(*topoapi.Object_Entity); ok {
 				if entity.Entity.KindID == topoapi.E2T {
-					log.Debugf("Received E2T node event: %+v", event.Object.ID)
+					log.Infof("Received E2T node event: %+v", event.Object.ID)
 					for _, conn := range conns {
 						ch <- controller.NewID(conn.ID)
 					}
 				}
 				// Enqueue the management connection with matching e2node
 				if entity.Entity.KindID == topoapi.E2NODE {
-					log.Debugf("Received E2 node event: %+v", event.Object.ID)
+					log.Infof("Received E2 node event: %+v", event.Object.ID)
 					for _, conn := range conns {
 						if conn.E2NodeID == event.Object.GetID() {
 							ch <- controller.NewID(conn.ID)

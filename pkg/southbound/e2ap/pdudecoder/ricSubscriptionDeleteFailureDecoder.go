@@ -7,11 +7,11 @@ package pdudecoder
 import (
 	"fmt"
 
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicSubscriptionDeleteFailurePdu(e2apPdu *e2appdudescriptions.E2ApPdu) (
@@ -40,23 +40,23 @@ func DecodeRicSubscriptionDeleteFailurePdu(e2apPdu *e2appdudescriptions.E2ApPdu)
 
 	for _, v := range ricSubscriptionDelete.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDRicrequestID) {
-			if v.GetValue().GetRicrequestId() == nil {
+			if v.GetValue().GetRrId() == nil {
 				return nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("error E2APpdu does not have id-RICrequestID (mandatory)")
 			}
-			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRicrequestId().GetRicRequestorId())
-			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRicrequestId().GetRicInstanceId())
+			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRrId().GetRicRequestorId())
+			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRrId().GetRicInstanceId())
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionID) {
-			if v.GetValue().GetRanfunctionId() == nil {
+			if v.GetValue().GetRfId() == nil {
 				return nil, nil, nil, nil, nil, nil, nil, nil, fmt.Errorf("error E2APpdu does not have id-RANfunctionID (mandatory)")
 			}
-			ranFunctionID = types.RanFunctionID(v.GetValue().GetRanfunctionId().GetValue())
+			ranFunctionID = types.RanFunctionID(v.GetValue().GetRfId().GetValue())
 		}
 		if v.Id == int32(v2.ProtocolIeIDCause) {
-			cause = v.GetValue().GetCause()
+			cause = v.GetValue().GetC()
 		}
 		if v.Id == int32(v2.ProtocolIeIDCriticalityDiagnostics) {
-			critDiagnostics := v.GetValue().GetCriticalityDiagnostics()
+			critDiagnostics := v.GetValue().GetCd()
 			if critDiagnostics != nil { //It's optional
 				pc = v2.ProcedureCodeT(critDiagnostics.GetProcedureCode().GetValue())
 				crit = critDiagnostics.GetProcedureCriticality()

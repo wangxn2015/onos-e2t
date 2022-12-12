@@ -5,7 +5,6 @@ SPDX-License-Identifier: Apache-2.0
 -->
 # onos-e2t
 E2 AP Termination module for ONOS SD-RAN (µONOS Architecture)
-v1.11.99 --> origin ONF version is v0.11.0
 
 ## Overview
 

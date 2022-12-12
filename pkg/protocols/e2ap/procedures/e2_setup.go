@@ -9,12 +9,12 @@ import (
 	"sync"
 	"syscall"
 
-	e2api "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2apcommondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2api "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2apcommondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 )
 
 // E2Setup is an E2 setup procedure
@@ -61,7 +61,7 @@ func (p *E2SetupInitiator) Initiate(ctx context.Context, request *e2appducontent
 	var transactionID int32 = -1
 	for _, v := range request.GetProtocolIes() {
 		if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 			break
 		}
 	}
@@ -134,14 +134,14 @@ func (p *E2SetupInitiator) Handle(pdu *e2appdudescriptions.E2ApPdu) {
 	case *e2appdudescriptions.E2ApPdu_SuccessfulOutcome:
 		for _, v := range pdu.GetSuccessfulOutcome().GetValue().GetE2Setup().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-				transactionID = v.GetValue().GetTransactionId().GetValue()
+				transactionID = v.GetValue().GetTrId().GetValue()
 				break
 			}
 		}
 	case *e2appdudescriptions.E2ApPdu_UnsuccessfulOutcome:
 		for _, v := range pdu.GetUnsuccessfulOutcome().GetValue().GetE2Setup().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-				transactionID = v.GetValue().GetTransactionId().GetValue()
+				transactionID = v.GetValue().GetTrId().GetValue()
 				break
 			}
 		}

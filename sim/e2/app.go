@@ -8,9 +8,9 @@ import (
 	"context"
 	"fmt"
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/wangxn2015/onos-e2t/test/utils"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
-	e2 "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
+	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
+	e2 "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
 	"google.golang.org/grpc"
 	"net"
 )
@@ -34,7 +34,7 @@ type App struct {
 }
 
 func (a *App) startSubscription(ctx context.Context, id string, nodeID string, cellObjectID string, reportPeriod uint32, granularity uint32) error {
-	a.log.Infof("Starting %s subscription %s", nodeID, id)
+	a.log.Warnf("Starting %s subscription %s", nodeID, id)
 	eventTriggerBytes, err := utils.CreateKpmV2EventTrigger(reportPeriod)
 	if err != nil {
 		a.log.Error(err)
@@ -74,15 +74,15 @@ func (a *App) startSubscription(ctx context.Context, id string, nodeID string, c
 
 	go func() {
 		for range ch {
-			a.log.Infof("Received indication for subscription %s", id)
+			a.log.Warnf("Received indication for subscription %s", id)
 		}
-		a.log.Infof("Indication channel closed for subscription %s", id)
+		a.log.Warnf("Indication channel closed for subscription %s", id)
 	}()
 	return nil
 }
 
 func (a *App) stopSubscription(ctx context.Context, id string, nodeID string) error {
-	a.log.Infof("Stopping %s subscription %s", nodeID, id)
+	a.log.Warnf("Stopping %s subscription %s", nodeID, id)
 	err := a.client.Node(e2.NodeID(nodeID)).Unsubscribe(ctx, id)
 	if err != nil {
 		a.log.Error(err)

@@ -6,11 +6,11 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicIndicationPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (
@@ -38,52 +38,52 @@ func DecodeRicIndicationPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (
 
 	for _, v := range ricIndication.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDRicrequestID) {
-			if v.GetValue().GetRicrequestId() == nil {
+			if v.GetValue().GetRrId() == nil {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RICrequestID")
 			}
-			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRicrequestId().GetRicRequestorId())
-			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRicrequestId().GetRicInstanceId())
+			ricRequestID.RequestorID = types.RicRequestorID(v.GetValue().GetRrId().GetRicRequestorId())
+			ricRequestID.InstanceID = types.RicInstanceID(v.GetValue().GetRrId().GetRicInstanceId())
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionID) {
-			if v.GetValue().GetRanfunctionId() == nil {
+			if v.GetValue().GetRfId() == nil {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RANfunctionID")
 			}
-			ranFunctionID = types.RanFunctionID(v.GetValue().GetRanfunctionId().GetValue())
+			ranFunctionID = types.RanFunctionID(v.GetValue().GetRfId().GetValue())
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicactionID) {
-			ricActionIDIe := v.GetValue().GetRicactionId()
+			ricActionIDIe := v.GetValue().GetRaId()
 			if ricActionIDIe == nil {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RICactionID")
 			}
-			ricActionID = types.RicActionID(v.GetValue().GetRicactionId().GetValue())
+			ricActionID = types.RicActionID(v.GetValue().GetRaId().GetValue())
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicindicationSn) {
 			// ricIndicationSn is optional
-			if v.GetValue().GetRicindicationSn() != nil {
-				ricIndicationSn = types.RicIndicationSn(v.GetValue().GetRicindicationSn().GetValue())
+			if v.GetValue().GetRiSn() != nil {
+				ricIndicationSn = types.RicIndicationSn(v.GetValue().GetRiSn().GetValue())
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicindicationType) {
-			if v.GetValue().GetRicindicationType() < 0 || v.GetValue().GetRicindicationType() > 1 {
+			if v.GetValue().GetRit() < 0 || v.GetValue().GetRit() > 1 {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RICindicationType")
 			}
-			ricIndicationType = v.GetValue().GetRicindicationType()
+			ricIndicationType = v.GetValue().GetRit()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicindicationHeader) {
-			if v.GetValue().GetRicindicationHeader() == nil {
+			if v.GetValue().GetRih() == nil {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RICindicationHeader")
 			}
-			ricIndicationHeader = v.GetValue().GetRicindicationHeader().GetValue()
+			ricIndicationHeader = v.GetValue().GetRih().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicindicationMessage) {
-			if v.GetValue().GetRicindicationMessage() == nil {
+			if v.GetValue().GetRim() == nil {
 				return 0, 0, nil, nil, nil, 0, 0, nil, fmt.Errorf("error E2APpdu does not have id-RICindicationMessage")
 			}
-			ricIndicationMessage = v.GetValue().GetRicindicationMessage().GetValue()
+			ricIndicationMessage = v.GetValue().GetRim().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRiccallProcessID) {
-			if v.GetValue().GetRiccallProcessId() != nil { // Is optional
-				ricCallProcessIDBytes := types.RicCallProcessID(v.GetValue().GetRiccallProcessId().GetValue())
+			if v.GetValue().GetRcpId() != nil { // Is optional
+				ricCallProcessIDBytes := types.RicCallProcessID(v.GetValue().GetRcpId().GetValue())
 				ricCallProcessID = &ricCallProcessIDBytes
 			}
 		}

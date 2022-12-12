@@ -8,23 +8,23 @@ import (
 	"context"
 	"time"
 
-	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/onosproject/onos-e2t/pkg/controller/utils"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
 
 const (
-	defaultTimeout = 30 * time.Second
+	defaultTimeout = 300 * time.Second
 )
 
 // NewController returns a new E2 connection update controller
@@ -58,7 +58,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	defer cancel()
 
 	connID := id.Value.(e2server.ConnID)
-	log.Infof("Reconciling E2 node Control relation for connection: %s", connID)
+	log.Warnf("Reconciling E2 node Control relation for connection: %s", connID)
 
 	// Remove a CONTROLS relation if the relation is associated with the local E2T node and
 	//  the connection does not exist, or if the relation is associated with an E2T node that’s not in topo.
@@ -88,7 +88,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 }
 
 func (r *Reconciler) createE2ControlRelation(ctx context.Context, conn *e2server.E2APConn) (controller.Result, error) {
-	log.Infof("Creating control relation for connection %s", conn.ID)
+	log.Warnf("Creating control relation for connection %s", conn.ID)
 	object := &topoapi.Object{
 		ID:   topoapi.ID(conn.ID),
 		Type: topoapi.Object_RELATION,

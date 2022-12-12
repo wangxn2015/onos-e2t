@@ -9,16 +9,16 @@ import (
 	"io"
 	"testing"
 
-	"github.com/wangxn2015/helmit/pkg/kubernetes"
-	"github.com/wangxn2015/onos-lib-go/pkg/grpc/retry"
+	"github.com/onosproject/helmit/pkg/kubernetes"
+	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc/codes"
 
+	"github.com/onosproject/helmit/pkg/helm"
 	modelapi "github.com/onosproject/onos-api/go/onos/ransim/model"
 	ransimtypes "github.com/onosproject/onos-api/go/onos/ransim/types"
 	"github.com/stretchr/testify/assert"
-	"github.com/wangxn2015/helmit/pkg/helm"
 
-	"github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/creds"
+	"github.com/onosproject/onos-ric-sdk-go/pkg/e2/creds"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

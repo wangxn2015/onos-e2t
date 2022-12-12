@@ -11,7 +11,6 @@ import (
 	"net/mail"
 	"net/url"
 	"regexp"
-	"sort"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -32,7 +31,6 @@ var (
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
-	_ = sort.Sort
 )
 
 // Validate checks the field values on CriticalityReject with the rules defined
@@ -71,7 +69,6 @@ func (m *CriticalityReject) validate(all bool) error {
 	if len(errors) > 0 {
 		return CriticalityRejectMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -184,7 +181,6 @@ func (m *CriticalityIgnore) validate(all bool) error {
 	if len(errors) > 0 {
 		return CriticalityIgnoreMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -297,7 +293,6 @@ func (m *CriticalityNotify) validate(all bool) error {
 	if len(errors) > 0 {
 		return CriticalityNotifyMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -410,7 +405,6 @@ func (m *PresenceOptional) validate(all bool) error {
 	if len(errors) > 0 {
 		return PresenceOptionalMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -521,7 +515,6 @@ func (m *PresenceConditional) validate(all bool) error {
 	if len(errors) > 0 {
 		return PresenceConditionalMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -634,7 +627,6 @@ func (m *PresenceMandatory) validate(all bool) error {
 	if len(errors) > 0 {
 		return PresenceMandatoryMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -747,7 +739,6 @@ func (m *ProcedureCode) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProcedureCodeMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -858,7 +849,6 @@ func (m *ProtocolIeId) validate(all bool) error {
 	if len(errors) > 0 {
 		return ProtocolIeIdMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -959,7 +949,6 @@ func (m *RiccallProcessId) validate(all bool) error {
 	if len(errors) > 0 {
 		return RiccallProcessIdMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1061,7 +1050,6 @@ func (m *RiccontrolHeader) validate(all bool) error {
 	if len(errors) > 0 {
 		return RiccontrolHeaderMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1163,7 +1151,6 @@ func (m *RiccontrolMessage) validate(all bool) error {
 	if len(errors) > 0 {
 		return RiccontrolMessageMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1267,7 +1254,6 @@ func (m *RiccontrolOutcome) validate(all bool) error {
 	if len(errors) > 0 {
 		return RiccontrolOutcomeMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1371,7 +1357,6 @@ func (m *RicindicationHeader) validate(all bool) error {
 	if len(errors) > 0 {
 		return RicindicationHeaderMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1475,7 +1460,6 @@ func (m *RicindicationMessage) validate(all bool) error {
 	if len(errors) > 0 {
 		return RicindicationMessageMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1579,7 +1563,6 @@ func (m *RanfunctionDefinition) validate(all bool) error {
 	if len(errors) > 0 {
 		return RanfunctionDefinitionMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1683,7 +1666,6 @@ func (m *RanfunctionOid) validate(all bool) error {
 	if len(errors) > 0 {
 		return RanfunctionOidMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1794,7 +1776,6 @@ func (m *PlmnIdentity) validate(all bool) error {
 	if len(errors) > 0 {
 		return PlmnIdentityMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1895,7 +1876,6 @@ func (m *RiceventTriggerDefinition) validate(all bool) error {
 	if len(errors) > 0 {
 		return RiceventTriggerDefinitionMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -1999,7 +1979,6 @@ func (m *RicactionDefinition) validate(all bool) error {
 	if len(errors) > 0 {
 		return RicactionDefinitionMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -2102,7 +2081,6 @@ func (m *Amfname) validate(all bool) error {
 	if len(errors) > 0 {
 		return AmfnameMultiError(errors)
 	}
-
 	return nil
 }
 
@@ -2202,7 +2180,6 @@ func (m *Mmename) validate(all bool) error {
 	if len(errors) > 0 {
 		return MmenameMultiError(errors)
 	}
-
 	return nil
 }
 

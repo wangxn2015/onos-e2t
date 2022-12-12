@@ -10,8 +10,8 @@ import (
 	"github.com/atomix/atomix-go-client/pkg/atomix"
 	"github.com/atomix/atomix-go-framework/pkg/atomix/meta"
 	api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 
 	_map "github.com/atomix/atomix-go-client/pkg/atomix/map"
 	"github.com/gogo/protobuf/proto"
@@ -86,7 +86,7 @@ func (s *atomixStore) Get(ctx context.Context, id api.SubscriptionID) (*api.Subs
 }
 
 func (s *atomixStore) Create(ctx context.Context, sub *api.Subscription) error {
-	log.Infof("Creating subscription %+v", sub)
+	log.Warnf("Creating subscription %+v", sub)
 	bytes, err := proto.Marshal(sub)
 	if err != nil {
 		log.Errorf("Failed to create subscription %+v: %s", sub, err)
@@ -109,7 +109,7 @@ func (s *atomixStore) Update(ctx context.Context, sub *api.Subscription) error {
 		return errors.NewInvalid("subscription must contain a revision on update")
 	}
 
-	log.Infof("Updating subscription %+v", sub)
+	log.Warnf("Updating subscription %+v", sub)
 	bytes, err := proto.Marshal(sub)
 	if err != nil {
 		log.Errorf("Failed to update subscription %+v: %s", sub, err)
@@ -131,7 +131,7 @@ func (s *atomixStore) Delete(ctx context.Context, sub *api.Subscription) error {
 		return errors.NewInvalid("subscription must contain a revision on update")
 	}
 
-	log.Infof("Deleting subscription %s", sub.ID)
+	log.Warnf("Deleting subscription %s", sub.ID)
 	_, err := s.subs.Remove(ctx, string(sub.ID), _map.IfMatch(meta.NewRevision(meta.Revision(sub.Revision))))
 	if err != nil {
 		log.Warnf("Failed to delete subscription %s: %s", sub.ID, err)

@@ -5,8 +5,8 @@
 package e2ap
 
 import (
-	"github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap/procedures"
-	"github.com/wangxn2015/onos-e2t/pkg/protocols/sctp"
+	"github.com/onosproject/onos-e2t/pkg/protocols/e2ap/procedures"
+	"github.com/onosproject/onos-e2t/pkg/protocols/sctp"
 	"net"
 )
 

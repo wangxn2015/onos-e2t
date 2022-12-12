@@ -8,22 +8,22 @@ import (
 	"context"
 	"time"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/env"
+	"github.com/onosproject/onos-lib-go/pkg/env"
 
 	gogotypes "github.com/gogo/protobuf/types"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-e2t/pkg/controller/utils"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 const (
-	defaultTimeout            = 30 * time.Second
+	defaultTimeout            = 300 * time.Second
 	defaultGRPCPort           = 5150
 	defaultE2APPort           = 36421
-	defaultExpirationDuration = 30 * time.Second
+	defaultExpirationDuration = 3000 * time.Second
 )
 
 var log = logging.GetLogger()
@@ -48,7 +48,7 @@ type Reconciler struct {
 }
 
 func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
-	log.Debugf("Creating E2T entity %s", e2tID)
+	log.Infof("Creating E2T entity %s", e2tID)
 	object := &topoapi.Object{
 		ID:   utils.GetE2TID(),
 		Type: topoapi.Object_ENTITY,
@@ -62,8 +62,12 @@ func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 	}
 	interfaces := make([]*topoapi.Interface, 2)
 	interfaces[0] = &topoapi.Interface{
-		IP:   env.GetPodIP(),
-		Port: defaultE2APPort,
+		//by wxn to enable RAN to run outside RIC node
+		IP:   "192.168.127.113",
+		Port: 36401,
+		//---------------------------
+		//IP:   env.GetPodIP(),
+		//Port: defaultE2APPort,
 		Type: topoapi.Interface_INTERFACE_E2AP200,
 	}
 
@@ -94,7 +98,7 @@ func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 
 	err = r.rnib.Create(ctx, object)
 	if err != nil && !errors.IsAlreadyExists(err) {
-		log.Infof("Creating E2T entity %s failed: %v", e2tID, err)
+		log.Warnf("Creating E2T entity %s failed: %v", e2tID, err)
 		return err
 	}
 
@@ -106,7 +110,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	defer cancel()
 
 	e2tID := id.Value.(topoapi.ID)
-	log.Infof("Reconciling E2T entity with ID: %s", e2tID)
+	log.Warnf("Reconciling E2T entity with ID: %s", e2tID)
 
 	object, err := r.rnib.Get(ctx, e2tID)
 	if err == nil {
@@ -118,7 +122,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 
 			// Check if the the lease is expired
 			if lease.Expiration.Before(time.Now()) {
-				log.Debugf("Deleting the expired lease for E2T with ID: %s", e2tID)
+				log.Infof("Deleting the expired lease for E2T with ID: %s", e2tID)
 				err := r.rnib.Delete(ctx, object)
 				if !errors.IsNotFound(err) {
 					return controller.Result{}, err
@@ -145,14 +149,14 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 			// If the remaining time of lease is more than  half the lease duration, no need to renew the lease
 			// schedule the next renewal
 			if remainingTime > defaultExpirationDuration/2 {
-				log.Debugf("No need to renew the lease for %s, the remaining lease time is %v seconds", e2tID, remainingTime)
+				log.Infof("No need to renew the lease for %s, the remaining lease time is %v seconds", e2tID, remainingTime)
 				return controller.Result{
 					RequeueAfter: time.Until(lease.Expiration.Add(defaultExpirationDuration / 2 * -1)),
 				}, nil
 			}
 
 			// Renew the release to trigger the reconciler
-			log.Debugf("Renew the lease for E2T with ID: %s", e2tID)
+			log.Infof("Renew the lease for E2T with ID: %s", e2tID)
 			expiration := time.Now().Add(defaultExpirationDuration)
 			lease = &topoapi.Lease{
 				Expiration: &expiration,
@@ -170,13 +174,13 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 		}
 
 	} else if !errors.IsNotFound(err) {
-		log.Infof("Renewing E2T entity lease failed for E2T with ID %s: %v", e2tID, err)
+		log.Warnf("Renewing E2T entity lease failed for E2T with ID %s: %v", e2tID, err)
 		return controller.Result{}, err
 	}
 
 	// Create the E2T entity
 	if err := r.createE2T(ctx, e2tID); err != nil {
-		log.Infof("Creating E2T entity with ID %s failed: %v", e2tID, err)
+		log.Warnf("Creating E2T entity with ID %s failed: %v", e2tID, err)
 		return controller.Result{}, err
 	}
 

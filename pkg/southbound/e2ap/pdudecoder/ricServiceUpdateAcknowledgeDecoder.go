@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2ap_pdu_descriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2ap_pdu_descriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicServiceUpdateAcknowledgePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, types.RanFunctionRevisions,
@@ -28,21 +28,21 @@ func DecodeRicServiceUpdateAcknowledgePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu
 	causes := make(types.RanFunctionCauses)
 	for _, v := range rsua.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsAccepted) {
-			rfal := v.GetValue().GetRanfunctionsAccepted().GetValue().GetValue()
+			rfal := v.GetValue().GetRfIdl().GetValue().GetValue()
 			for _, ranFunctionIDItemIe := range rfal {
-				ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRanfunctionIdItem()
+				ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRfId()
 				id := types.RanFunctionID(ranFunctionIDItem.GetRanFunctionId().GetValue())
 				val := types.RanFunctionRevision(ranFunctionIDItem.GetRanFunctionRevision().GetValue())
 				ranFunctionsAcceptedList[id] = val
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsRejected) {
-			rfrl := v.GetValue().GetRanfunctionsRejected().GetValue().GetValue()
+			rfrl := v.GetValue().GetRfIdcl().GetValue().GetValue()
 			for _, rfri := range rfrl {
-				causes[types.RanFunctionID(rfri.GetValue().GetRanfunctionIecauseItem().GetRanFunctionId().GetValue())] = rfri.GetValue().GetRanfunctionIecauseItem().GetCause()
+				causes[types.RanFunctionID(rfri.GetValue().GetRfIdci().GetRanFunctionId().GetValue())] = rfri.GetValue().GetRfIdci().GetCause()
 			}
 		}
 	}

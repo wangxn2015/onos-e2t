@@ -9,9 +9,9 @@ import (
 	"sync"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -42,7 +42,7 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 
 	go func() {
 		for event := range eventCh {
-			log.Debugf("Received topo event '%s'", event.Object.ID)
+			log.Infof("Received topo event '%s'", event.Object.ID)
 			if relation, ok := event.Object.Obj.(*topoapi.Object_Relation); ok &&
 				relation.Relation.KindID == topoapi.CONTROLS {
 				ch <- controller.NewID(relation.Relation.TgtEntityID)

@@ -5,9 +5,9 @@
 package pdudecoder
 
 import (
-	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/pdubuilder"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 	"gotest.tools/assert"
 	"testing"
 )
@@ -20,6 +20,14 @@ func Test_DecodeRicSubscriptionRequestPdu(t *testing.T) {
 		RicSubsequentAction: e2apies.RicsubsequentActionType_RICSUBSEQUENT_ACTION_TYPE_CONTINUE,
 		Ricttw:              e2apies.RictimeToWait_RICTIME_TO_WAIT_W5MS,
 		RicActionDefinition: []byte{0x11, 0x22},
+	}
+
+	ricActionsToBeSetup[200] = types.RicActionDef{
+		RicActionID:         200,
+		RicActionType:       e2apies.RicactionType_RICACTION_TYPE_INSERT,
+		RicSubsequentAction: e2apies.RicsubsequentActionType_RICSUBSEQUENT_ACTION_TYPE_CONTINUE,
+		Ricttw:              e2apies.RictimeToWait_RICTIME_TO_WAIT_W10MS,
+		RicActionDefinition: []byte{0x33, 0x44},
 	}
 
 	rsr, err := pdubuilder.NewRicSubscriptionRequest(
@@ -38,7 +46,7 @@ func Test_DecodeRicSubscriptionRequestPdu(t *testing.T) {
 	assert.Equal(t, 2, int(ricReq.InstanceID))
 	assert.Equal(t, 3, int(ranFuncID))
 	assert.Equal(t, 2, len(ricEventDef))
-	assert.Equal(t, 1, len(ricActionsToBeSetup))
+	assert.Equal(t, 2, len(ricActionsToBeSetup))
 
 	assert.Equal(t, 100, int(ricActionsToBeSetup[0].RicActionID))
 	assert.Equal(t, e2apies.RictimeToWait_RICTIME_TO_WAIT_W5MS, ricActionsToBeSetup[0].Ricttw)

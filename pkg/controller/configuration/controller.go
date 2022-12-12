@@ -6,27 +6,26 @@ package configuration
 
 import (
 	"context"
-	"sync/atomic"
 	"time"
 
 	gogotypes "github.com/gogo/protobuf/types"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/onosproject/onos-e2t/pkg/controller/utils"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
 
 const (
-	defaultTimeout = 30 * time.Second
+	defaultTimeout = 300 * time.Second
 )
 
 // NewController returns a new E2 connection update controller
@@ -65,7 +64,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	defer cancel()
 
 	connID := id.Value.(e2server.ConnID)
-	log.Infof("Reconciling  configuration using mgmt connection: %s", connID)
+	log.Warnf("Reconciling  configuration using mgmt connection: %s", connID)
 	mgmtConn, err := r.mgmtConns.Get(ctx, connID)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -114,56 +113,59 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 			}
 		}
 	}
-
-	// Creates list of connections that should be added by the E2 node
-	connToAddList := getConnToAddList(mgmtConn, e2tNodesInterfaces)
-	connToRemoveList := getConnToRemoveList(mgmtConn, e2tNodesInterfaces)
-
-	if len(connToAddList) > 0 || len(connToRemoveList) > 0 {
-		connAddList := createConnectionAddListIE(connToAddList)
-		log.Debugf("Connection To Add List for e2 node %s, %+v", mgmtConn.E2NodeID, connAddList)
-
-		connRemoveList := createConnectionRemoveList(connToRemoveList)
-		log.Debugf("Connection To Remove List for e2 node %s, %+v", mgmtConn.E2NodeID, connRemoveList)
-
-		transactionID := atomic.AddUint64(&r.transactionID, 1) % 255
-		// Creates a connection update request to include list of the connections
-		// that should be added and list of connections that should be removed
-		connUpdateReq := NewConnectionUpdate(
-			WithConnectionAddList(connAddList),
-			WithConnectionRemoveList(connRemoveList),
-			WithTransactionID(int32(transactionID))).Build()
-
-		log.Infof("Sending connection update request for e2Node: %s, %+v", mgmtConn.E2NodeID, connUpdateReq)
-		connUpdateAck, connUpdateFailure, err := mgmtConn.E2ConnectionUpdate(ctx, connUpdateReq)
-		if err != nil {
-			log.Warnf("Failed to reconcile configuration for e2 node %s using management connection %s: %s", mgmtConn.E2NodeID, connID, err)
-			return controller.Result{}, err
-		}
-
-		if connUpdateAck != nil {
-			log.Infof("Received connection update ack for e2 node %s:%+v", mgmtConn.E2NodeID, connUpdateAck)
-			mgmtConn.E2NodeConfig.Connections = append(mgmtConn.E2NodeConfig.Connections, connToAddList...)
-			return controller.Result{}, nil
-		}
-		if connUpdateFailure != nil {
-			// TODO returns an appropriate error to retry
-			log.Infof("Received connection update failure: %+v", connUpdateFailure)
-
-		}
-	}
+	//------------------>commented by wxn 2022.8.10
+	//-----------------------------------------------------------------
+	// -------Creates list of connections that should be added by the E2 node
+	//connToAddList := getConnToAddList(mgmtConn, e2tNodesInterfaces)
+	//connToRemoveList := getConnToRemoveList(mgmtConn, e2tNodesInterfaces)
+	//
+	//if len(connToAddList) > 0 || len(connToRemoveList) > 0 {
+	//	connAddList := createConnectionAddListIE(connToAddList)
+	//	log.Warnf("Connection To Add List for e2 node %s, %+v", mgmtConn.E2NodeID, connAddList)
+	//
+	//	connRemoveList := createConnectionRemoveList(connToRemoveList)
+	//	log.Warnf("Connection To Remove List for e2 node %s, %+v", mgmtConn.E2NodeID, connRemoveList)
+	//
+	//	transactionID := atomic.AddUint64(&r.transactionID, 1) % 255
+	//	// Creates a connection update request to include list of the connections
+	//	// that should be added and list of connections that should be removed
+	//	connUpdateReq := NewConnectionUpdate(
+	//		WithConnectionAddList(connAddList),
+	//		WithConnectionRemoveList(connRemoveList),
+	//		WithTransactionID(int32(transactionID))).Build()
+	//
+	//	log.Warnf("Sending connection update request for e2Node: %s, %+v", mgmtConn.E2NodeID, connUpdateReq)
+	//	connUpdateAck, connUpdateFailure, err := mgmtConn.E2ConnectionUpdate(ctx, connUpdateReq)
+	//	if err != nil {
+	//		log.Warnf("Failed to reconcile configuration for e2 node %s using management connection %s: %s", mgmtConn.E2NodeID, connID, err)
+	//		return controller.Result{}, err
+	//	}
+	//
+	//	if connUpdateAck != nil {
+	//		log.Warnf("Received connection update ack for e2 node %s:%+v", mgmtConn.E2NodeID, connUpdateAck)
+	//		mgmtConn.E2NodeConfig.Connections = append(mgmtConn.E2NodeConfig.Connections, connToAddList...)
+	//		return controller.Result{}, nil
+	//	}
+	//	if connUpdateFailure != nil {
+	//		// TODO returns an appropriate error to retry
+	//		log.Warnf("Received connection update failure: %+v", connUpdateFailure)
+	//	}
+	//}
+	//------------------>commented by wxn 2022.8.10
+	//-----------------------------------------------------------------
+	log.Warnf("wxn-->mgmtConn.E2NodeConfig.Connections[]: %v", mgmtConn.E2NodeConfig.Connections)
 	return controller.Result{}, nil
 }
 
 func (r *Reconciler) createE2Node(ctx context.Context, conn *e2server.ManagementConn) (bool, error) {
-	log.Debugf("Creating E2 node %s for connection %v", conn.E2NodeID, conn.ID)
+	log.Infof("Creating E2 node %s for connection %v", conn.E2NodeID, conn.ID)
 	object, err := r.rnib.Get(ctx, conn.E2NodeID)
 	if err != nil {
 		if !errors.IsNotFound(err) {
 			log.Warnf("Creating E2Node entity '%s' for connection '%s': %v", conn.E2NodeID, conn.ID, err)
 			return false, err
 		}
-		log.Debugf("Creating E2Node entity '%s' for connection '%s'", conn.E2NodeID, conn.ID)
+		log.Infof("Creating E2Node entity '%s' for connection '%s'", conn.E2NodeID, conn.ID)
 		object = &topoapi.Object{
 			ID:   conn.E2NodeID,
 			Type: topoapi.Object_ENTITY,
@@ -200,7 +202,7 @@ func (r *Reconciler) createE2Node(ctx context.Context, conn *e2server.Management
 	e2NodeAspect := &topoapi.E2Node{}
 	err = object.GetAspect(e2NodeAspect)
 	if err == nil {
-		log.Debugf("E2 node %s aspect is already set ", conn.E2NodeID)
+		log.Infof("E2 node %s aspect is already set ", conn.E2NodeID)
 		return false, nil
 	}
 
@@ -252,7 +254,7 @@ func (r *Reconciler) createE2Cell(ctx context.Context, conn *e2server.Management
 			return false, err
 		}
 
-		log.Debugf("Creating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
+		log.Infof("Creating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
 		object := &topoapi.Object{
 			ID:   cellID,
 			Type: topoapi.Object_ENTITY,
@@ -285,11 +287,11 @@ func (r *Reconciler) createE2Cell(ctx context.Context, conn *e2server.Management
 	e2CellAspect := &topoapi.E2Cell{}
 	err = object.GetAspect(e2CellAspect)
 	if err == nil {
-		log.Debugf("E2 cell %s aspect is already set", cellID)
+		log.Infof("E2 cell %s aspect is already set", cellID)
 		return false, nil
 	}
 
-	log.Debugf("Updating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
+	log.Infof("Updating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
 	err = object.SetAspect(cell)
 	if err != nil {
 		log.Warnf("Creating E2Cell entity '%s' for connection '%s': %v", cell.CellGlobalID.Value, conn.ID, err)
@@ -316,7 +318,7 @@ func (r *Reconciler) createE2CellRelation(ctx context.Context, conn *e2server.Ma
 			log.Warnf("Creating E2Cell '%s' relation '%s' for connection '%s': %v", cellID, relationID, conn.ID, err)
 			return false, err
 		}
-		log.Debugf("Creating E2Cell '%s' relation '%s' for connection '%s'", cellID, relationID, conn.ID)
+		log.Infof("Creating E2Cell '%s' relation '%s' for connection '%s'", cellID, relationID, conn.ID)
 		object := &topoapi.Object{
 			ID:   relationID,
 			Type: topoapi.Object_RELATION,

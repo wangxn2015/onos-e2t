@@ -5,11 +5,11 @@
 package pdudecoder
 
 import (
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/pdubuilder"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 	"gotest.tools/assert"
 	"testing"
 )

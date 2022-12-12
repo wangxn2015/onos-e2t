@@ -8,7 +8,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 )
 
 type E2APConnManager interface {
@@ -43,7 +43,7 @@ func (m *e2apConnManager) processEvents() {
 }
 
 func (m *e2apConnManager) processEvent(conn *E2APConn) {
-	log.Infof("Notifying data connection: %s", conn.ID)
+	log.Warnf("Notifying data connection: %s", conn.ID)
 	m.watchersMu.RLock()
 	for _, watcher := range m.watchers {
 		watcher <- conn
@@ -52,14 +52,14 @@ func (m *e2apConnManager) processEvent(conn *E2APConn) {
 }
 
 func (m *e2apConnManager) open(conn *E2APConn) {
-	log.Infof("Opened data connection %s", conn.ID)
+	log.Warnf("Opened data connection %s", conn.ID)
 	m.connsMu.Lock()
 	m.conns[conn.ID] = conn
 	m.connsMu.Unlock()
 	m.eventCh <- conn
 	go func() {
 		<-conn.Context().Done()
-		log.Infof("Closing data connection for e2 node %s:%s", conn.ID, conn.E2NodeID)
+		log.Warnf("Closing data connection for e2 node %s:%s", conn.ID, conn.E2NodeID)
 		m.connsMu.Lock()
 		delete(m.conns, conn.ID)
 		m.connsMu.Unlock()
@@ -118,7 +118,7 @@ func (m *e2apConnManager) Watch(ctx context.Context, ch chan<- *E2APConn) error 
 
 // Close closes the manager
 func (m *e2apConnManager) Close() error {
-	log.Infof("Closing data connection manager")
+	log.Warnf("Closing data connection manager")
 	close(m.eventCh)
 	return nil
 }

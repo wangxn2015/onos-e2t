@@ -7,12 +7,12 @@ package e2ap
 import (
 	"context"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/sctp/addressing"
-	"github.com/wangxn2015/onos-lib-go/pkg/sctp/types"
+	"github.com/onosproject/onos-lib-go/pkg/sctp/addressing"
+	"github.com/onosproject/onos-lib-go/pkg/sctp/types"
 
-	"github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap/procedures"
+	"github.com/onosproject/onos-e2t/pkg/protocols/e2ap/procedures"
 
-	sctp "github.com/wangxn2015/onos-lib-go/pkg/sctp"
+	sctp "github.com/onosproject/onos-lib-go/pkg/sctp"
 )
 
 // ClientHandler is a client handler function
@@ -35,31 +35,6 @@ func Connect(ctx context.Context, address string, handler ClientHandler) (Client
 	if err != nil {
 		return nil, err
 	}
-	log.Warnf("wxn-->DialSCTP--conn's localAddr: %s, remoteAddr: %s", c.LocalAddr().String(), c.RemoteAddr().String())
-
-	conn := NewClientConn(c, func(conn ClientConn) ClientInterface {
-		return handler(conn)
-	})
-	return conn, nil
-}
-
-//--wxn
-// Connect connects to the given address
-func ConnectWithSctpBind(ctx context.Context, address string, sctpClientIpAddr string, handler ClientHandler) (ClientConn, error) {
-	addr, err := addressing.ResolveAddress(types.Sctp4, address)
-	if err != nil {
-		return nil, err
-	}
-	c, err := sctp.DialSCTPWithSctpClientBindAddress(addr,sctpClientIpAddr,
-		sctp.WithAddressFamily(addr.AddressFamily),
-		sctp.WithNonBlocking(false),
-		sctp.WithMode(types.OneToOne),
-		sctp.WithInitMsg(types.InitMsg{}))
-	if err != nil {
-		return nil, err
-	}
-	log.Warnf("wxn-->DialSCTP--conn's localAddr: %s, remoteAddr: %s", c.LocalAddr().String(), c.RemoteAddr().String())
-
 	conn := NewClientConn(c, func(conn ClientConn) ClientInterface {
 		return handler(conn)
 	})

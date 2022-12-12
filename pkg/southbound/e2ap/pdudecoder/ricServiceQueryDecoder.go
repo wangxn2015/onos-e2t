@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicServiceQueryPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, types.RanFunctionRevisions, error) {
@@ -26,14 +26,14 @@ func DecodeRicServiceQueryPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, typ
 	rfAccepted := make(types.RanFunctionRevisions)
 	for _, v := range rsq.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsAccepted) {
-			ranFunctionsAcceptedIE := v.GetValue().GetRanfunctionsAccepted().GetValue()
+			ranFunctionsAcceptedIE := v.GetValue().GetRfIdl().GetValue()
 			if ranFunctionsAcceptedIE != nil {
 				// It's not mandatory
 				for _, ranFunctionIDItemIe := range ranFunctionsAcceptedIE.GetValue() {
-					ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRanfunctionIdItem()
+					ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRfId()
 					id := types.RanFunctionID(ranFunctionIDItem.GetRanFunctionId().GetValue())
 					val := types.RanFunctionRevision(ranFunctionIDItem.GetRanFunctionRevision().GetValue())
 					rfAccepted[id] = val

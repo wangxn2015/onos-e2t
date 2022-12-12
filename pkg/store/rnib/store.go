@@ -8,13 +8,13 @@ import (
 	"context"
 	"io"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/grpc/retry"
+	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc/codes"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"google.golang.org/grpc"
 )
 
@@ -66,7 +66,7 @@ type rnibStore struct {
 
 // Create creates an R-NIB object in topo store
 func (s *rnibStore) Create(ctx context.Context, object *topoapi.Object) error {
-	log.Debugf("Creating R-NIB object: %v", object)
+	log.Infof("Creating R-NIB object: %v", object)
 	_, err := s.client.Create(ctx, &topoapi.CreateRequest{
 		Object: object,
 	})
@@ -79,7 +79,7 @@ func (s *rnibStore) Create(ctx context.Context, object *topoapi.Object) error {
 
 // Update updates the given R-NIB object in topo store
 func (s *rnibStore) Update(ctx context.Context, object *topoapi.Object) error {
-	log.Debugf("Updating R-NIB object: %v", object)
+	log.Infof("Updating R-NIB object: %v", object)
 	response, err := s.client.Update(ctx, &topoapi.UpdateRequest{
 		Object: object,
 	})
@@ -87,13 +87,13 @@ func (s *rnibStore) Update(ctx context.Context, object *topoapi.Object) error {
 		return errors.FromGRPC(err)
 	}
 	object = response.Object
-	log.Debug("Updated R-NIB object is:", object)
+	log.Info("Updated R-NIB object is:", object)
 	return nil
 }
 
 // Get gets an R-NIB object based on a given ID
 func (s *rnibStore) Get(ctx context.Context, id topoapi.ID) (*topoapi.Object, error) {
-	log.Debugf("Getting R-NIB object with ID: %v", id)
+	log.Infof("Getting R-NIB object with ID: %v", id)
 	getResponse, err := s.client.Get(ctx, &topoapi.GetRequest{
 		ID: id,
 	})
@@ -105,7 +105,7 @@ func (s *rnibStore) Get(ctx context.Context, id topoapi.ID) (*topoapi.Object, er
 
 // List lists all of the R-NIB objects
 func (s *rnibStore) List(ctx context.Context, filters *topoapi.Filters) ([]topoapi.Object, error) {
-	log.Debugf("Listing R-NIB objects")
+	log.Infof("Listing R-NIB objects")
 	listResponse, err := s.client.List(ctx, &topoapi.ListRequest{
 		Filters: filters,
 	})

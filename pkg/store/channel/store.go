@@ -12,8 +12,8 @@ import (
 	"github.com/atomix/atomix-go-client/pkg/atomix"
 	"github.com/atomix/atomix-go-framework/pkg/atomix/meta"
 	api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 
 	_map "github.com/atomix/atomix-go-client/pkg/atomix/map"
 	"github.com/gogo/protobuf/proto"
@@ -87,7 +87,7 @@ func (s *atomixStore) Get(ctx context.Context, id api.ChannelID) (*api.Channel, 
 }
 
 func (s *atomixStore) Create(ctx context.Context, channel *api.Channel) error {
-	log.Infof("Creating channel %+v", channel)
+	log.Warnf("Creating channel %+v", channel)
 	bytes, err := proto.Marshal(channel)
 	if err != nil {
 		log.Errorf("Failed to create channel %+v: %s", channel, err)
@@ -110,7 +110,7 @@ func (s *atomixStore) Update(ctx context.Context, channel *api.Channel) error {
 		return errors.NewInvalid("channel must contain a revision on update")
 	}
 
-	log.Infof("Updating channel %+v", channel)
+	log.Warnf("Updating channel %+v", channel)
 	bytes, err := proto.Marshal(channel)
 	if err != nil {
 		log.Errorf("Failed to update channel %+v: %s", channel, err)
@@ -132,7 +132,7 @@ func (s *atomixStore) Delete(ctx context.Context, channel *api.Channel) error {
 		return errors.NewInvalid("channel must contain a revision on update")
 	}
 
-	log.Infof("Deleting channel %s", channel.ID)
+	log.Warnf("Deleting channel %s", channel.ID)
 	_, err := s.channels.Remove(ctx, string(channel.ID), _map.IfMatch(meta.NewRevision(meta.Revision(channel.Revision))))
 	if err != nil {
 		log.Warnf("Failed to delete channel %s: %s", channel.ID, err)

@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/onosproject/helmit/pkg/helm"
+	"github.com/onosproject/helmit/pkg/input"
+	"github.com/onosproject/helmit/pkg/kubernetes"
+	"github.com/onosproject/helmit/pkg/util/random"
 	"github.com/onosproject/onos-test/pkg/onostest"
 	"github.com/stretchr/testify/assert"
-	"github.com/wangxn2015/helmit/pkg/helm"
-	"github.com/wangxn2015/helmit/pkg/input"
-	"github.com/wangxn2015/helmit/pkg/kubernetes"
-	"github.com/wangxn2015/helmit/pkg/util/random"
 )
 
 const E2TReplicaCount int64 = 2

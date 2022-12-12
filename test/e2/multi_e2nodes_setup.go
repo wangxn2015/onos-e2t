@@ -13,8 +13,8 @@ import (
 
 	modelapi "github.com/onosproject/onos-api/go/onos/ransim/model"
 	ransimtypes "github.com/onosproject/onos-api/go/onos/ransim/types"
+	"github.com/onosproject/onos-e2t/test/utils"
 	"github.com/stretchr/testify/assert"
-	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 const (

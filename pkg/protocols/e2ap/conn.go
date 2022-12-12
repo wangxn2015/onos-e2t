@@ -11,13 +11,14 @@ import (
 	"net"
 	"sync"
 
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/encoder"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/encoder"
 
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
-const defaultRecvBufSize = 1024 * 4
+//const defaultRecvBufSize = 1024 * 4
+const defaultRecvBufSize = 1024 * 3
 
 var log = logging.GetLogger()
 
@@ -135,6 +136,7 @@ func (c *threadSafeConn) processSend(msg *e2appdudescriptions.E2ApPdu) error {
 		log.Warn(err)
 		return err
 	}
+
 	log.Debugf("Encoded message is:\n%v", hex.Dump(bytes))
 	_, err = c.conn.Write(bytes)
 	return err
@@ -158,12 +160,14 @@ func (c *threadSafeConn) processRecvs() {
 		if err != nil {
 			log.Warn(err)
 			c.Close()
+			log.Warn("wxn -------->  c.Close")
 			return
 		}
+		//log.Warnf("wxn-->receive--conn's localAddr: %s, remoteAddr: %s", c.conn.LocalAddr().String(), c.conn.RemoteAddr().String())
 
 		err = c.processRecv(buf[:n])
 		if err != nil {
-			log.Warn(err)
+			log.Error(err)
 		}
 	}
 }

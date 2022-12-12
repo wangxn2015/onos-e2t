@@ -9,15 +9,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wangxn2015/onos-e2t/test/e2utils"
+	"github.com/onosproject/onos-e2t/test/e2utils"
 
-	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
+	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
 
-	"github.com/wangxn2015/helmit/pkg/kubernetes"
+	"github.com/onosproject/helmit/pkg/kubernetes"
 
 	subapi "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
+	"github.com/onosproject/onos-e2t/test/utils"
 	"github.com/stretchr/testify/assert"
-	"github.com/wangxn2015/onos-e2t/test/utils"
 )
 
 // TestE2NodeDownSubscription checks that a subscription channel read times out if

@@ -15,12 +15,12 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff"
-	"github.com/wangxn2015/helmit/pkg/helm"
-	"github.com/wangxn2015/helmit/pkg/kubernetes"
-	"github.com/wangxn2015/helmit/pkg/simulation"
-	"github.com/wangxn2015/helmit/pkg/util/async"
-	"github.com/wangxn2015/onos-e2t/test/utils"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/helmit/pkg/helm"
+	"github.com/onosproject/helmit/pkg/kubernetes"
+	"github.com/onosproject/helmit/pkg/simulation"
+	"github.com/onosproject/helmit/pkg/util/async"
+	"github.com/onosproject/onos-e2t/test/utils"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"google.golang.org/grpc"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -221,7 +221,7 @@ type simApp struct {
 }
 
 func (s *simApp) start() error {
-	log.Infof("Starting app '%s'", s.name)
+	log.Warnf("Starting app '%s'", s.name)
 	ss := &appsv1.StatefulSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: s.name,
@@ -355,7 +355,7 @@ func (s *simAppInstance) start() error {
 }
 
 func (s *simAppInstance) awaitPodReady() error {
-	log.Infof("Waiting for pod '%s'", s.name)
+	log.Warnf("Waiting for pod '%s'", s.name)
 	err := backoff.Retry(func() error {
 		s.mu.Lock()
 		running := s.running
@@ -395,7 +395,7 @@ func (s *simAppInstance) awaitPodReady() error {
 }
 
 func (s *simAppInstance) streamLogs(since time.Time) {
-	log.Infof("Following pod '%s'", s.name)
+	log.Warnf("Following pod '%s'", s.name)
 	t := metav1.NewTime(since)
 	req := s.client.Clientset().
 		CoreV1().
@@ -434,7 +434,7 @@ func (s *simAppInstance) crash() error {
 	}
 	s.mu.Unlock()
 
-	log.Infof("Crashing pod '%s'", s.name)
+	log.Warnf("Crashing pod '%s'", s.name)
 	err := s.client.Clientset().
 		CoreV1().
 		Pods(s.client.Namespace()).
@@ -470,7 +470,7 @@ func (s *simAppSub) start() error {
 		return nil
 	}
 
-	log.Infof("Starting '%s' subscription '%s' on '%s'", s.nodeID, s.name, s.instance.name)
+	log.Warnf("Starting '%s' subscription '%s' on '%s'", s.nodeID, s.name, s.instance.name)
 	conn, err := grpc.Dial(s.instance.address, grpc.WithInsecure())
 	if err != nil {
 		log.Error(err)
@@ -505,7 +505,7 @@ func (s *simAppSub) stop() error {
 		return nil
 	}
 
-	log.Infof("Stopping '%s' subscription '%s' on '%s'", s.nodeID, s.name, s.instance.name)
+	log.Warnf("Stopping '%s' subscription '%s' on '%s'", s.nodeID, s.name, s.instance.name)
 	conn, err := grpc.Dial(s.instance.address, grpc.WithInsecure())
 	if err != nil {
 		log.Error(err)

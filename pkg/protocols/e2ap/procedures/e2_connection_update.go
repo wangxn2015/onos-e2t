@@ -9,14 +9,14 @@ import (
 	"sync"
 	"syscall"
 
-	e2api "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2apcommondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2api "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2apcommondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
 
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
 )
 
 // E2ConnectionUpdate is an E2 connection update procedure
@@ -63,7 +63,7 @@ func (p *E2ConnectionUpdateInitiator) Initiate(ctx context.Context, request *e2a
 	var transactionID int32 = -1
 	for _, v := range request.GetProtocolIes() {
 		if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 			break
 		}
 	}
@@ -139,14 +139,14 @@ func (p *E2ConnectionUpdateInitiator) Handle(pdu *e2appdudescriptions.E2ApPdu) {
 	case *e2appdudescriptions.E2ApPdu_SuccessfulOutcome:
 		for _, v := range pdu.GetSuccessfulOutcome().GetValue().GetE2ConnectionUpdate().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-				transactionID = v.GetValue().GetTransactionId().GetValue()
+				transactionID = v.GetValue().GetTrId().GetValue()
 				break
 			}
 		}
 	case *e2appdudescriptions.E2ApPdu_UnsuccessfulOutcome:
 		for _, v := range pdu.GetUnsuccessfulOutcome().GetValue().GetE2ConnectionUpdate().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDTransactionID) {
-				transactionID = v.GetValue().GetTransactionId().GetValue()
+				transactionID = v.GetValue().GetTrId().GetValue()
 				break
 			}
 		}
@@ -218,7 +218,7 @@ func (p *E2ConnectionUpdateProcedure) Handle(requestPDU *e2appdudescriptions.E2A
 		if err := requestPDU.Validate(); err != nil {
 			log.Errorf("E2 Connection Update response validation failed: %v", err)
 		} else {
-			log.Debugf("Response PDU is following\n%v", responsePDU)
+			log.Infof("Response PDU is following\n%v", responsePDU)
 			err := p.dispatcher(responsePDU)
 			if err != nil {
 				if err == context.Canceled || err == context.DeadlineExceeded || err == syscall.EPIPE || err == syscall.EBADF {

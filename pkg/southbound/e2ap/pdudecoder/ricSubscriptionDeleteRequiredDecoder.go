@@ -6,9 +6,9 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicSubscriptionDeleteRequiredPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (
@@ -23,15 +23,15 @@ func DecodeRicSubscriptionDeleteRequiredPdu(e2apPdu *e2appdudescriptions.E2ApPdu
 	list := e2apPdu.GetInitiatingMessage().GetValue().GetRicSubscriptionDeleteRequired().GetProtocolIes()
 	for _, item := range list {
 		if item.Id == int32(v2.ProtocolIeIDRICsubscriptionToBeRemoved) {
-			innerList := item.GetValue().GetRicsubscriptionToBeRemoved().GetValue()
+			innerList := item.GetValue().GetRsdr().GetValue()
 			for _, v := range innerList {
 				if v.Id == int32(v2.ProtocolIeIDRICsubscriptionWithCauseItem) {
-					rswcl[types.RanFunctionID(v.GetValue().GetRicsubscriptionWithCauseItem().GetRanFunctionId().GetValue())] = &types.RicSubscriptionWithCauseItem{
+					rswcl[types.RanFunctionID(v.GetValue().GetE2Curi().GetRanFunctionId().GetValue())] = &types.RicSubscriptionWithCauseItem{
 						RicRequestID: types.RicRequest{
-							RequestorID: types.RicRequestorID(v.GetValue().GetRicsubscriptionWithCauseItem().GetRicRequestId().GetRicRequestorId()),
-							InstanceID:  types.RicInstanceID(v.GetValue().GetRicsubscriptionWithCauseItem().GetRicRequestId().GetRicInstanceId()),
+							RequestorID: types.RicRequestorID(v.GetValue().GetE2Curi().GetRicRequestId().GetRicRequestorId()),
+							InstanceID:  types.RicInstanceID(v.GetValue().GetE2Curi().GetRicRequestId().GetRicInstanceId()),
 						},
-						Cause: v.GetValue().GetRicsubscriptionWithCauseItem().GetCause(),
+						Cause: v.GetValue().GetE2Curi().GetCause(),
 					}
 				}
 			}

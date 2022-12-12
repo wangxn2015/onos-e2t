@@ -5,8 +5,8 @@
 package e2ap_ies
 
 import (
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	"github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 )
 
 func (m *E2NodeComponentConfigurationAck) SetFailureCause(c *Cause) *E2NodeComponentConfigurationAck {

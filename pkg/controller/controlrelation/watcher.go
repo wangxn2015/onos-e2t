@@ -9,11 +9,11 @@ import (
 	"sync"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-e2t/pkg/controller/utils"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -45,7 +45,7 @@ func (w *E2APConnWatcher) Start(ch chan<- controller.ID) error {
 
 	go func() {
 		for conn := range w.connCh {
-			log.Debugf("Received  E2AP Connection event '%s'", conn.ID)
+			log.Infof("Received  E2AP Connection event '%s'", conn.ID)
 			ch <- controller.NewID(conn.ID)
 		}
 		close(ch)
@@ -92,7 +92,7 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 		for event := range eventCh {
 			if entity, ok := event.Object.Obj.(*topoapi.Object_Entity); ok &&
 				entity.Entity.KindID == topoapi.E2T && event.Type == topoapi.EventType_REMOVED {
-				log.Debugf("Received E2T topo event '%s'", event.Object.ID)
+				log.Infof("Received E2T topo event '%s'", event.Object.ID)
 				controlRelationSrcIDFilter := &topoapi.Filters{
 					RelationFilter: &topoapi.RelationFilter{
 						RelationKind: topoapi.CONTROLS,

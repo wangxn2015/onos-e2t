@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2ap_pdu_descriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2ap_pdu_descriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeE2nodeConfigurationUpdateAcknowledgePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32,
@@ -27,17 +27,17 @@ func DecodeE2nodeConfigurationUpdateAcknowledgePdu(e2apPdu *e2ap_pdu_description
 	e2nccual := make([]*types.E2NodeComponentConfigUpdateAckItem, 0)
 	for _, v := range e2ncua.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDE2nodeComponentConfigUpdateAck) {
-			list := v.GetValue().GetE2NodeComponentConfigUpdateAck().GetValue()
+			list := v.GetValue().GetE2Nccual().GetValue()
 			for _, ie := range list {
 				e2nccuai := types.E2NodeComponentConfigUpdateAckItem{}
-				e2nccuai.E2NodeComponentType = ie.GetValue().GetE2NodeComponentConfigUpdateAckItem().GetE2NodeComponentInterfaceType()
-				e2nccuai.E2NodeComponentID = ie.GetValue().GetE2NodeComponentConfigUpdateAckItem().GetE2NodeComponentId()
+				e2nccuai.E2NodeComponentType = ie.GetValue().GetE2Nccuai().GetE2NodeComponentInterfaceType()
+				e2nccuai.E2NodeComponentID = ie.GetValue().GetE2Nccuai().GetE2NodeComponentId()
 				e2nccuai.E2NodeComponentConfigurationAck = types.E2NodeComponentConfigurationAck{
-					UpdateOutcome: ie.GetValue().GetE2NodeComponentConfigUpdateAckItem().GetE2NodeComponentConfigurationAck().GetUpdateOutcome(),
-					FailureCause:  ie.GetValue().GetE2NodeComponentConfigUpdateAckItem().GetE2NodeComponentConfigurationAck().GetFailureCause(),
+					UpdateOutcome: ie.GetValue().GetE2Nccuai().GetE2NodeComponentConfigurationAck().GetUpdateOutcome(),
+					FailureCause:  ie.GetValue().GetE2Nccuai().GetE2NodeComponentConfigurationAck().GetFailureCause(),
 				}
 
 				e2nccual = append(e2nccual, &e2nccuai)

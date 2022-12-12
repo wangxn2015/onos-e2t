@@ -6,18 +6,18 @@ package configuration
 
 import (
 	"encoding/binary"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 	"net"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
 
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	"github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2apcommondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	"github.com/wangxn2015/onos-lib-go/api/asn1/v1/asn1"
+	e2apcommondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 )
 
 func getConnToRemoveList(mgmtConn *e2server.ManagementConn, e2tInterfaces []*topoapi.Interface) []topoapi.Interface {
@@ -45,18 +45,26 @@ func getConnToRemoveList(mgmtConn *e2server.ManagementConn, e2tInterfaces []*top
 func getConnToAddList(mgmtConn *e2server.ManagementConn, e2tInterfaces []*topoapi.Interface) []topoapi.Interface {
 	var connToAddList []topoapi.Interface
 	if len(mgmtConn.E2NodeConfig.Connections) == 0 {
-		log.Debugf("No configured connection is available, adding connections for all of the E2T instances")
+		log.Warnf("No configured connection is available, adding connections for all of the E2T instances")
 		for _, e2tIface := range e2tInterfaces {
 			if e2tIface.Type == topoapi.Interface_INTERFACE_E2AP200 {
 				conn := topoapi.Interface{
-					IP:   e2tIface.IP,
-					Port: e2tIface.Port,
+					// edited by wxn to enable ransim to run on RAN outside RIC hardware
+					IP:   "192.168.127.113",
+					Port: 36401,
+					//IP:   e2tIface.IP,
+					//Port: e2tIface.Port,
 					Type: topoapi.Interface_INTERFACE_E2AP200,
 				}
+				log.Warnf("wxn-->e2tIface.IP: %v, e2tIface.Port: %v", e2tIface.IP, e2tIface.Port)
 				connToAddList = append(connToAddList, conn)
 			}
 		}
 		return connToAddList
+	}
+	//wxn for debugging
+	for i, e2NodeConn := range mgmtConn.E2NodeConfig.Connections {
+		log.Warnf("wxn-->Existing connection %i, %+v ,%v", i, e2NodeConn.IP, e2NodeConn.Port)
 	}
 
 	for _, e2tIface := range e2tInterfaces {
@@ -64,19 +72,22 @@ func getConnToAddList(mgmtConn *e2server.ManagementConn, e2tInterfaces []*topoap
 		if e2tIface.Type == topoapi.Interface_INTERFACE_E2AP200 {
 			for _, e2NodeConn := range mgmtConn.E2NodeConfig.Connections {
 				if e2NodeConn.IP == e2tIface.IP && e2NodeConn.Port == e2tIface.Port && e2NodeConn.Type == e2tIface.Type {
-					log.Debugf("Connection %+v already exists for e2node: %s", e2NodeConn, mgmtConn.E2NodeID)
+					log.Warnf("Connection %+v already exists for e2node: %s", e2NodeConn, mgmtConn.E2NodeID)
 					exist = true
 				}
 			}
-			if !exist {
-				conn := topoapi.Interface{
-					IP:   e2tIface.IP,
-					Port: e2tIface.Port,
-					Type: topoapi.Interface_INTERFACE_E2AP200,
-				}
-				connToAddList = append(connToAddList, conn)
-			}
+			//commented by wxn to enable ransim to run outside RIC node
+			//if !exist {
+			//	conn := topoapi.Interface{
+			//		IP:   e2tIface.IP,
+			//		Port: e2tIface.Port,
+			//		Type: topoapi.Interface_INTERFACE_E2AP200,
+			//	}
+			//	connToAddList = append(connToAddList, conn)
+			//}
+			log.Warnf("wxn connection exist: ", exist) //wxn
 		}
+
 	}
 	return connToAddList
 }
@@ -87,15 +98,21 @@ func createConnectionAddListIE(connToAddList []topoapi.Interface) *e2appduconten
 	}
 
 	for _, connToAdd := range connToAddList {
+		//------------------
+		log.Warnf("wxn-->fix before IP %+v : %v", connToAdd.IP, connToAdd.Port)
+		connToAdd.IP = "192.168.127.113"
+		connToAdd.Port = 36401
+		//-----------------
 		parsedIP := net.ParseIP(connToAdd.IP)
 		portBytes := make([]byte, 2)
 		binary.BigEndian.PutUint16(portBytes, uint16(connToAdd.Port))
+		log.Warnf("wxn-->fix after IP %+v : %v", connToAdd.IP, connToAdd.Port)
 		cai := &e2appducontents.E2ConnectionUpdateItemIes{
 			Id:          int32(v2.ProtocolIeIDE2connectionUpdateItem),
 			Criticality: int32(e2apcommondatatypes.Criticality_CRITICALITY_IGNORE),
 			Value: &e2appducontents.E2ConnectionUpdateItemIe{
-				E2ConnectionUpdateItemIe: &e2appducontents.E2ConnectionUpdateItemIe_E2ConnectionUpdateItem{
-					E2ConnectionUpdateItem: &e2appducontents.E2ConnectionUpdateItem{
+				E2ConnectionUpdateItemIe: &e2appducontents.E2ConnectionUpdateItemIe_E2Curi{
+					E2Curi: &e2appducontents.E2ConnectionUpdateItem{
 						TnlInformation: &e2apies.Tnlinformation{
 							TnlPort: &asn1.BitString{
 								Value: portBytes,
@@ -118,8 +135,8 @@ func createConnectionAddListIE(connToAddList []topoapi.Interface) *e2appduconten
 		Id:          int32(v2.ProtocolIeIDE2connectionUpdateAdd),
 		Criticality: int32(e2ap_commondatatypes.Criticality_CRITICALITY_REJECT),
 		Value: &e2appducontents.E2ConnectionUpdateIe{
-			E2ConnectionUpdateIe: &e2appducontents.E2ConnectionUpdateIe_E2ConnectionUpdateAdd{
-				E2ConnectionUpdateAdd: connectionAddList,
+			E2ConnectionUpdateIe: &e2appducontents.E2ConnectionUpdateIe_E2Cul{
+				E2Cul: connectionAddList,
 			},
 		},
 	}
@@ -140,8 +157,8 @@ func createConnectionRemoveList(connToRemoveList []topoapi.Interface) *e2appduco
 			Id:          int32(v2.ProtocolIeIDE2connectionUpdateRemoveItem),
 			Criticality: int32(e2apcommondatatypes.Criticality_CRITICALITY_IGNORE),
 			Value: &e2appducontents.E2ConnectionUpdateRemoveItemIe{
-				E2ConnectionUpdateRemoveItemIe: &e2appducontents.E2ConnectionUpdateRemoveItemIe_E2ConnectionUpdateRemoveItem{
-					E2ConnectionUpdateRemoveItem: &e2appducontents.E2ConnectionUpdateRemoveItem{
+				E2ConnectionUpdateRemoveItemIe: &e2appducontents.E2ConnectionUpdateRemoveItemIe_E2Curi{
+					E2Curi: &e2appducontents.E2ConnectionUpdateRemoveItem{
 						TnlInformation: &e2apies.Tnlinformation{
 							TnlPort: &asn1.BitString{
 								Value: portBytes,
@@ -163,8 +180,8 @@ func createConnectionRemoveList(connToRemoveList []topoapi.Interface) *e2appduco
 		Id:          int32(v2.ProtocolIeIDE2connectionUpdateRemove),
 		Criticality: int32(e2ap_commondatatypes.Criticality_CRITICALITY_REJECT),
 		Value: &e2appducontents.E2ConnectionUpdateIe{
-			E2ConnectionUpdateIe: &e2appducontents.E2ConnectionUpdateIe_E2ConnectionUpdateRemove{
-				E2ConnectionUpdateRemove: connectionRemoveList,
+			E2ConnectionUpdateIe: &e2appducontents.E2ConnectionUpdateIe_E2Curl{
+				E2Curl: connectionRemoveList,
 			},
 		},
 	}
@@ -218,11 +235,11 @@ func (c *ConnectionUpdate) Build() *e2appducontents.E2ConnectionUpdate {
 	}
 	connectionUpdateRequest.SetTransactionID(c.transactionID)
 
-	if c.connectionAddList != nil && len(c.connectionAddList.GetValue().GetE2ConnectionUpdateAdd().GetValue()) != 0 {
+	if c.connectionAddList != nil && len(c.connectionAddList.GetValue().GetE2Cul().GetValue()) != 0 {
 		connectionUpdateRequest.ProtocolIes = append(connectionUpdateRequest.ProtocolIes, c.connectionAddList)
 
 	}
-	if c.connectionRemoveList != nil && len(c.connectionRemoveList.GetValue().GetE2ConnectionUpdateRemove().GetValue()) != 0 {
+	if c.connectionRemoveList != nil && len(c.connectionRemoveList.GetValue().GetE2Curl().GetValue()) != 0 {
 		connectionUpdateRequest.ProtocolIes = append(connectionUpdateRequest.ProtocolIes, c.connectionRemoveList)
 	}
 

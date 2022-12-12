@@ -5,9 +5,9 @@
 package main
 
 import (
-	"github.com/wangxn2015/helmit/pkg/registry"
-	"github.com/wangxn2015/helmit/pkg/simulation"
-	"github.com/wangxn2015/onos-e2t/sim/e2"
+	"github.com/onosproject/helmit/pkg/registry"
+	"github.com/onosproject/helmit/pkg/simulation"
+	"github.com/onosproject/onos-e2t/sim/e2"
 )
 
 func main() {

@@ -6,12 +6,12 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2apies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeE2SetupRequest(request *e2appducontents.E2SetupRequest) (*int32, *types.E2NodeIdentity, *types.RanFunctions,
@@ -22,33 +22,35 @@ func DecodeE2SetupRequest(request *e2appducontents.E2SetupRequest) (*int32, *typ
 	var globalE2NodeID *e2apies.GlobalE2NodeId
 	ranFunctionsList := make(types.RanFunctions)
 	e2nccul := make([]*types.E2NodeComponentConfigAdditionItem, 0)
+	//遍历 E2SetupRequest的4个ie
 	for _, v := range request.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDGlobalE2nodeID) {
-			globalE2NodeID = v.GetValue().GetGlobalE2NodeId()
+			globalE2NodeID = v.GetValue().GetGE2NId()
 		}
+		//如果是 ran func add list
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsAdded) {
 			ranFunctionsIe := v.GetValue()
 			if ranFunctionsIe == nil {
 				return nil, nil, nil, nil, fmt.Errorf("error E2APpdu does not have id-RANfunctionsAdded")
 			}
-			for _, rfIe := range ranFunctionsIe.GetRanfunctionsAdded().GetValue() {
-				ranFunctionsList[types.RanFunctionID(rfIe.GetValue().GetRanfunctionItem().GetRanFunctionId().GetValue())] = types.RanFunctionItem{
-					Description: rfIe.GetValue().GetRanfunctionItem().GetRanFunctionDefinition().GetValue(),
-					Revision:    types.RanFunctionRevision(rfIe.GetValue().GetRanfunctionItem().GetRanFunctionRevision().GetValue()),
-					OID:         types.RanFunctionOID(rfIe.GetValue().GetRanfunctionItem().GetRanFunctionOid().GetValue()),
+			for _, rfIe := range ranFunctionsIe.GetRfl().GetValue() {
+				ranFunctionsList[types.RanFunctionID(rfIe.GetValue().GetRfi().GetRanFunctionId().GetValue())] = types.RanFunctionItem{
+					Description: rfIe.GetValue().GetRfi().GetRanFunctionDefinition().GetValue(),
+					Revision:    types.RanFunctionRevision(rfIe.GetValue().GetRfi().GetRanFunctionRevision().GetValue()),
+					OID:         types.RanFunctionOID(rfIe.GetValue().GetRfi().GetRanFunctionOid().GetValue()),
 				}
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDE2nodeComponentConfigAddition) {
-			list := v.GetValue().GetE2NodeComponentConfigAddition().GetValue()
+			list := v.GetValue().GetE2Nccal().GetValue()
 			for _, ie := range list {
 				e2nccuai := types.E2NodeComponentConfigAdditionItem{}
-				e2nccuai.E2NodeComponentType = ie.GetValue().GetE2NodeComponentConfigAdditionItem().GetE2NodeComponentInterfaceType()
-				e2nccuai.E2NodeComponentID = ie.GetValue().GetE2NodeComponentConfigAdditionItem().GetE2NodeComponentId()
-				e2nccuai.E2NodeComponentConfiguration = *ie.GetValue().GetE2NodeComponentConfigAdditionItem().GetE2NodeComponentConfiguration()
+				e2nccuai.E2NodeComponentType = ie.GetValue().GetE2Nccui().GetE2NodeComponentInterfaceType()
+				e2nccuai.E2NodeComponentID = ie.GetValue().GetE2Nccui().GetE2NodeComponentId()
+				e2nccuai.E2NodeComponentConfiguration = *ie.GetValue().GetE2Nccui().GetE2NodeComponentConfiguration()
 
 				e2nccul = append(e2nccul, &e2nccuai)
 			}

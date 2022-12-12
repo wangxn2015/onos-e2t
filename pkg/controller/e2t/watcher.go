@@ -8,11 +8,11 @@ import (
 	"context"
 	"sync"
 
-	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/onosproject/onos-e2t/pkg/controller/utils"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
-	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -45,10 +45,11 @@ func (w *Watcher) Start(ch chan<- controller.ID) error {
 	go func() {
 		ch <- controller.NewID(utils.GetE2TID())
 		for event := range eventCh {
-			log.Debugf("Received topo event '%s'", event.Object.ID)
+			log.Infof("Received topo event '%s'", event.Object.ID)
 			if entity, ok := event.Object.Obj.(*topoapi.Object_Entity); ok &&
 				entity.Entity.KindID == topoapi.E2T {
 				ch <- controller.NewID(event.Object.ID)
+				log.Infof("wxn--> E2T topo event '%v'", event.Object)
 			}
 		}
 		close(ch)

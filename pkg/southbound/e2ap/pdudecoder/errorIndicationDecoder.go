@@ -7,11 +7,11 @@ package pdudecoder
 import (
 	"fmt"
 
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2ap_ies "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-ies"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeErrorIndicationPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, *e2ap_ies.Cause, *types.RanFunctionID,
@@ -39,19 +39,19 @@ func DecodeErrorIndicationPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, *e2
 
 	for _, v := range ei.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDCause) {
-			cause = v.GetValue().GetCause()
+			cause = v.GetValue().GetC()
 
 		}
 		if v.Id == int32(v2.ProtocolIeIDRicrequestID) {
-			ricRequestIDIe := v.GetValue().GetRicrequestId()
+			ricRequestIDIe := v.GetValue().GetRr()
 			ricRequestID.RequestorID = types.RicRequestorID(ricRequestIDIe.GetRicRequestorId())
 			ricRequestID.InstanceID = types.RicInstanceID(ricRequestIDIe.GetRicInstanceId())
 		}
 		if v.Id == int32(v2.ProtocolIeIDCriticalityDiagnostics) {
-			critDiagnostics := v.GetValue().GetCriticalityDiagnostics()
+			critDiagnostics := v.GetValue().GetCd()
 			if critDiagnostics != nil { //It's optional
 				pc = v2.ProcedureCodeT(critDiagnostics.GetProcedureCode().GetValue())
 				crit = critDiagnostics.GetProcedureCriticality()
@@ -71,7 +71,7 @@ func DecodeErrorIndicationPdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, *e2
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionID) {
-			ranFunctionID = types.RanFunctionID(v.GetValue().GetRanfunctionId().GetValue())
+			ranFunctionID = types.RanFunctionID(v.GetValue().GetRfId().GetValue())
 		}
 	}
 

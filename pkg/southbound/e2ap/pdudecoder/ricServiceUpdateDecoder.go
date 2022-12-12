@@ -6,10 +6,10 @@ package pdudecoder
 
 import (
 	"fmt"
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 
-	e2ap_pdu_descriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	e2ap_pdu_descriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeRicServiceUpdatePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, types.RanFunctions, types.RanFunctionRevisions,
@@ -29,12 +29,12 @@ func DecodeRicServiceUpdatePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, 
 	ranFunctionsModifiedList := make(types.RanFunctions)
 	for _, v := range rsu.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsAdded) {
-			rfal := v.GetValue().GetRanfunctionsAdded().GetValue()
+			rfal := v.GetValue().GetRfl().GetValue()
 			for _, ie := range rfal.GetValue() {
-				val := ie.GetValue().GetRanfunctionItem()
+				val := ie.GetValue().GetRfi()
 				ranFunctionsAddedList[types.RanFunctionID(val.GetRanFunctionId().GetValue())] = types.RanFunctionItem{
 					Description: val.GetRanFunctionDefinition().GetValue(),
 					Revision:    types.RanFunctionRevision(val.GetRanFunctionRevision().GetValue()),
@@ -43,9 +43,9 @@ func DecodeRicServiceUpdatePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, 
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsModified) {
-			rfml := v.GetValue().GetRanfunctionsModified().GetValue()
+			rfml := v.GetValue().GetRfl().GetValue()
 			for _, ie := range rfml.GetValue() {
-				val := ie.GetValue().GetRanfunctionItem()
+				val := ie.GetValue().GetRfi()
 				ranFunctionsModifiedList[types.RanFunctionID(val.GetRanFunctionId().GetValue())] = types.RanFunctionItem{
 					Description: val.GetRanFunctionDefinition().GetValue(),
 					Revision:    types.RanFunctionRevision(val.GetRanFunctionRevision().GetValue()),
@@ -54,9 +54,9 @@ func DecodeRicServiceUpdatePdu(e2apPdu *e2ap_pdu_descriptions.E2ApPdu) (*int32, 
 			}
 		}
 		if v.Id == int32(v2.ProtocolIeIDRanfunctionsDeleted) {
-			rfdl := v.GetValue().GetRanfunctionsDeleted().GetValue()
+			rfdl := v.GetValue().GetRfidl().GetValue()
 			for _, ranFunctionIDItemIe := range rfdl.GetValue() {
-				ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRanfunctionIdItem()
+				ranFunctionIDItem := ranFunctionIDItemIe.GetValue().GetRfId()
 				id := types.RanFunctionID(ranFunctionIDItem.GetRanFunctionId().GetValue())
 				val := types.RanFunctionRevision(ranFunctionIDItem.GetRanFunctionRevision().GetValue())
 				ranFunctionsDeletedList[id] = val

@@ -9,10 +9,10 @@ import (
 	"plugin"
 	"sync"
 
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
 	types "github.com/onosproject/onos-api/go/onos/e2t/e2sm"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
@@ -88,7 +88,7 @@ func (r *modelRegistry) GetPlugin(oid types.OID) (ServiceModel, error) {
 // RegisterModelPlugin adds an external model plugin to the model registry at startup
 // or through the 'admin' gRPC interface. Once plugins are loaded they cannot be unloaded
 func (r *modelRegistry) RegisterModelPlugin(moduleName string) (types.ShortName, types.Version, error) {
-	log.Info("Loading module ", moduleName)
+	log.Warn("Loading module ", moduleName)
 	modelPluginModule, err := plugin.Open(moduleName)
 	if err != nil {
 		log.Warnf("Unable to load module %s %s", moduleName, err)
@@ -99,6 +99,7 @@ func (r *modelRegistry) RegisterModelPlugin(moduleName string) (types.ShortName,
 		log.Warn("Unable to find ServiceModel in module ", moduleName, err)
 		return "", "", err
 	}
+	//转化成 service model
 	serviceModelPlugin, ok := symbolMP.(ServiceModel)
 	if !ok {
 		log.Warnf("Unable to use ServiceModelPlugin in %s", moduleName)
@@ -107,7 +108,7 @@ func (r *modelRegistry) RegisterModelPlugin(moduleName string) (types.ShortName,
 	}
 	smData := serviceModelPlugin.ServiceModelData()
 	modelOid := smData.OID
-	log.Infof("Loaded %s %s %s from %s", smData.Name, smData.Version, smData.OID, moduleName)
+	log.Warnf("Loaded %s %s %s from %s", smData.Name, smData.Version, smData.OID, moduleName)
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.plugins[modelOid] = serviceModelPlugin

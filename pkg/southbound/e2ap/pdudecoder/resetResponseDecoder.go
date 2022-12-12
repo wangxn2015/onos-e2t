@@ -7,10 +7,10 @@ package pdudecoder
 import (
 	"fmt"
 
-	"github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2ap_commondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
 )
 
 func DecodeResetResponsePdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, *v2.ProcedureCodeT,
@@ -33,10 +33,10 @@ func DecodeResetResponsePdu(e2apPdu *e2appdudescriptions.E2ApPdu) (*int32, *v2.P
 	var diags []*types.CritDiag
 	for _, v := range rr.GetProtocolIes() {
 		if v.Id == int32(v2.ProtocolIeIDTransactionID) {
-			transactionID = v.GetValue().GetTransactionId().GetValue()
+			transactionID = v.GetValue().GetTrId().GetValue()
 		}
 		if v.Id == int32(v2.ProtocolIeIDCriticalityDiagnostics) {
-			critDiagnostics := v.GetValue().GetCriticalityDiagnostics()
+			critDiagnostics := v.GetValue().GetCd()
 			if critDiagnostics != nil { //It's optional
 				pc = v2.ProcedureCodeT(critDiagnostics.GetProcedureCode().GetValue())
 				crit = critDiagnostics.GetProcedureCriticality()

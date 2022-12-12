@@ -6,29 +6,29 @@ package manager
 
 import (
 	"github.com/atomix/atomix-go-client/pkg/atomix"
-	"github.com/wangxn2015/onos-e2t/pkg/controller/configuration"
-	"github.com/wangxn2015/onos-e2t/pkg/controller/controlrelation"
-	"github.com/wangxn2015/onos-e2t/pkg/controller/e2t"
-	nbstream "github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
-	e2v1beta1service "github.com/wangxn2015/onos-e2t/pkg/northbound/e2/v1beta1"
-	sbstream "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
-	chanstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
-	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/onosproject/onos-e2t/pkg/controller/configuration"
+	"github.com/onosproject/onos-e2t/pkg/controller/controlrelation"
+	"github.com/onosproject/onos-e2t/pkg/controller/e2t"
+	nbstream "github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
+	e2v1beta1service "github.com/onosproject/onos-e2t/pkg/northbound/e2/v1beta1"
+	sbstream "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
+	chanstore "github.com/onosproject/onos-e2t/pkg/store/channel"
+	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
 
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
-	"github.com/wangxn2015/onos-e2t/pkg/oid"
+	"github.com/onosproject/onos-e2t/pkg/oid"
 
-	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
+	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
 
-	"github.com/wangxn2015/onos-e2t/pkg/controller/mastership"
-	subctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/channel"
-	taskctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/subscription"
-	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
-	"github.com/wangxn2015/onos-lib-go/pkg/certs"
-	"github.com/wangxn2015/onos-lib-go/pkg/env"
-	"github.com/wangxn2015/onos-lib-go/pkg/logging"
-	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
+	"github.com/onosproject/onos-e2t/pkg/controller/mastership"
+	subctrlv1beta1 "github.com/onosproject/onos-e2t/pkg/controller/v1beta1/channel"
+	taskctrlv1beta1 "github.com/onosproject/onos-e2t/pkg/controller/v1beta1/subscription"
+	"github.com/onosproject/onos-e2t/pkg/modelregistry"
+	"github.com/onosproject/onos-lib-go/pkg/certs"
+	"github.com/onosproject/onos-lib-go/pkg/env"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-lib-go/pkg/northbound"
 )
 
 var log = logging.GetLogger()
@@ -46,7 +46,7 @@ type Config struct {
 
 // NewManager creates a new manager
 func NewManager(config Config) *Manager {
-	log.Info("Creating Manager")
+	log.Warn("Creating Manager")
 	modelRegistry := modelregistry.NewModelRegistry()
 	for _, smp := range config.ServiceModelPlugins {
 		if _, _, err := modelRegistry.RegisterModelPlugin(smp); err != nil {
@@ -72,7 +72,7 @@ type Manager struct {
 
 // Run starts the manager and the associated services
 func (m *Manager) Run() {
-	log.Info("Running Manager")
+	log.Warn("Running Manager")
 	if err := m.Start(); err != nil {
 		log.Fatal("Unable to run Manager", err)
 	}
@@ -209,7 +209,7 @@ func (m *Manager) startNorthboundServer(chans chanstore.Store, subs substore.Sto
 	doneCh := make(chan error)
 	go func() {
 		err := s.Serve(func(started string) {
-			log.Info("Started NBI on ", started)
+			log.Warn("Started NBI on ", started)
 			close(doneCh)
 		})
 		if err != nil {
@@ -221,7 +221,7 @@ func (m *Manager) startNorthboundServer(chans chanstore.Store, subs substore.Sto
 
 // Close kills the connections and manager related objects
 func (m *Manager) Close() {
-	log.Info("Closing Manager")
+	log.Warn("Closing Manager")
 	if err := m.Stop(); err != nil {
 		log.Fatal("Unable to Close Manager", err)
 	}

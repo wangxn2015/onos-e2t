@@ -9,12 +9,12 @@ import (
 	"sync"
 	"syscall"
 
-	e2api "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	e2apcommondatatypes "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
+	e2api "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	e2apcommondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 )
 
 // RICControl is a RIC control procedure
@@ -59,14 +59,14 @@ func (p *RICControlInitiator) Initiate(ctx context.Context, request *e2appducont
 	var requestID int32
 	for _, v := range request.GetProtocolIes() {
 		if v.Id == int32(e2api.ProtocolIeIDRicrequestID) {
-			requestID = v.GetValue().GetRicrequestId().GetRicRequestorId()
+			requestID = v.GetValue().GetRrId().GetRicRequestorId()
 			break
 		}
 	}
 
-	p.mu.Lock()
+	p.mu.RLock()
 	p.responseChs[requestID] = responseCh
-	p.mu.Unlock()
+	p.mu.RUnlock()
 
 	if err := p.dispatcher(requestPDU); err != nil {
 		return nil, nil, errors.NewUnavailable("RIC Control initiation failed: %v", err)
@@ -134,14 +134,14 @@ func (p *RICControlInitiator) Handle(pdu *e2appdudescriptions.E2ApPdu) {
 	case *e2appdudescriptions.E2ApPdu_SuccessfulOutcome:
 		for _, v := range response.SuccessfulOutcome.Value.GetRicControl().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDRicrequestID) {
-				requestID = v.GetValue().GetRicrequestId().GetRicRequestorId()
+				requestID = v.GetValue().GetRrId().GetRicRequestorId()
 				break
 			}
 		}
 	case *e2appdudescriptions.E2ApPdu_UnsuccessfulOutcome:
 		for _, v := range response.UnsuccessfulOutcome.Value.GetRicControl().GetProtocolIes() {
 			if v.Id == int32(e2api.ProtocolIeIDRicrequestID) {
-				requestID = v.GetValue().GetRicrequestId().GetRicRequestorId()
+				requestID = v.GetValue().GetRrId().GetRicRequestorId()
 				break
 			}
 		}
@@ -250,7 +250,7 @@ func (p *RICControlProcedure) Handle(requestPDU *e2appdudescriptions.E2ApPdu) {
 		}
 
 	} else {
-		log.Debugf("RIC Control function does not have a response message")
+		log.Infof("RIC Control function does not have a response message")
 	}
 }
 

@@ -9,10 +9,10 @@ import (
 	"io"
 	"net"
 
-	e2appducontents "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	e2appdudescriptions "github.com/wangxn2015/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
-	"github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap/procedures"
-	"github.com/wangxn2015/onos-e2t/pkg/utils/async"
+	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	e2appdudescriptions "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-descriptions"
+	"github.com/onosproject/onos-e2t/pkg/protocols/e2ap/procedures"
+	"github.com/onosproject/onos-e2t/pkg/utils/async"
 )
 
 // ClientConn is a connection for an E2AP client

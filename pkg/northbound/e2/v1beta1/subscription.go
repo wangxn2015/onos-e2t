@@ -11,23 +11,23 @@ import (
 	"io"
 	"time"
 
-	v2 "github.com/wangxn2015/onos-e2t/api/e2ap/v2"
-	"github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
+	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
+	"github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
 
-	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
 	"github.com/gogo/protobuf/proto"
-	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
 
-	channelstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
+	channelstore "github.com/onosproject/onos-e2t/pkg/store/channel"
 
-	"github.com/wangxn2015/onos-e2t/pkg/oid"
+	"github.com/onosproject/onos-e2t/pkg/oid"
 
-	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
-	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-e2t/pkg/modelregistry"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
+	"github.com/onosproject/onos-lib-go/pkg/northbound"
 	"google.golang.org/grpc"
 )
 
@@ -79,7 +79,7 @@ type SubscriptionServer struct {
 }
 
 func (s *SubscriptionServer) GetChannel(ctx context.Context, request *e2api.GetChannelRequest) (*e2api.GetChannelResponse, error) {
-	log.Debugf("Received GetChannelRequest %+v", request)
+	log.Infof("Received GetChannelRequest %+v", request)
 	channel, err := s.chans.Get(ctx, request.ChannelID)
 	if err != nil {
 		log.Warnf("GetChannelRequest %+v failed: %s", request, err)
@@ -88,12 +88,12 @@ func (s *SubscriptionServer) GetChannel(ctx context.Context, request *e2api.GetC
 	response := &e2api.GetChannelResponse{
 		Channel: *channel,
 	}
-	log.Debugf("Sending GetChannelResponse %+v", response)
+	log.Infof("Sending GetChannelResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) ListChannels(ctx context.Context, request *e2api.ListChannelsRequest) (*e2api.ListChannelsResponse, error) {
-	log.Debugf("Received ListChannelsRequest %+v", request)
+	log.Infof("Received ListChannelsRequest %+v", request)
 	channels, err := s.chans.List(ctx)
 	if err != nil {
 		log.Warnf("ListChannelsRequest %+v failed: %s", request, err)
@@ -102,12 +102,12 @@ func (s *SubscriptionServer) ListChannels(ctx context.Context, request *e2api.Li
 	response := &e2api.ListChannelsResponse{
 		Channels: channels,
 	}
-	log.Debugf("Sending ListChannelsResponse %+v", response)
+	log.Infof("Sending ListChannelsResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, server e2api.SubscriptionAdminService_WatchChannelsServer) error {
-	log.Debugf("Received WatchChannelsRequest %+v", request)
+	log.Infof("Received WatchChannelsRequest %+v", request)
 	eventCh := make(chan e2api.ChannelEvent)
 	var opts []channelstore.WatchOption
 	if !request.NoReplay {
@@ -122,7 +122,7 @@ func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, 
 		response := &e2api.WatchChannelsResponse{
 			Event: event,
 		}
-		log.Debugf("Sending WatchChannelsResponse %+v", response)
+		log.Infof("Sending WatchChannelsResponse %+v", response)
 		err := server.Send(response)
 		if err != nil {
 			log.Warnf("Sending WatchChannelsResponse %+v failed: %s", response, err)
@@ -133,7 +133,7 @@ func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, 
 }
 
 func (s *SubscriptionServer) GetSubscription(ctx context.Context, request *e2api.GetSubscriptionRequest) (*e2api.GetSubscriptionResponse, error) {
-	log.Debugf("Received GetSubscriptionRequest %+v", request)
+	log.Infof("Received GetSubscriptionRequest %+v", request)
 	sub, err := s.subs.Get(ctx, request.SubscriptionID)
 	if err != nil {
 		log.Warnf("GetSubscriptionRequest %+v failed: %s", request, err)
@@ -142,12 +142,12 @@ func (s *SubscriptionServer) GetSubscription(ctx context.Context, request *e2api
 	response := &e2api.GetSubscriptionResponse{
 		Subscription: *sub,
 	}
-	log.Debugf("Sending GetSubscriptionResponse %+v", response)
+	log.Infof("Sending GetSubscriptionResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) ListSubscriptions(ctx context.Context, request *e2api.ListSubscriptionsRequest) (*e2api.ListSubscriptionsResponse, error) {
-	log.Debugf("Received ListSubscriptionsRequest %+v", request)
+	log.Infof("Received ListSubscriptionsRequest %+v", request)
 	subs, err := s.subs.List(ctx)
 	if err != nil {
 		log.Warnf("ListSubscriptionsRequest %+v failed: %s", request, err)
@@ -156,12 +156,12 @@ func (s *SubscriptionServer) ListSubscriptions(ctx context.Context, request *e2a
 	response := &e2api.ListSubscriptionsResponse{
 		Subscriptions: subs,
 	}
-	log.Debugf("Sending ListSubscriptionsResponse %+v", response)
+	log.Infof("Sending ListSubscriptionsResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) WatchSubscriptions(request *e2api.WatchSubscriptionsRequest, server e2api.SubscriptionAdminService_WatchSubscriptionsServer) error {
-	log.Debugf("Received WatchSubscriptionsRequest %+v", request)
+	log.Infof("Received WatchSubscriptionsRequest %+v", request)
 	eventCh := make(chan e2api.SubscriptionEvent)
 	var opts []substore.WatchOption
 	if !request.NoReplay {
@@ -176,7 +176,7 @@ func (s *SubscriptionServer) WatchSubscriptions(request *e2api.WatchSubscription
 		response := &e2api.WatchSubscriptionsResponse{
 			Event: event,
 		}
-		log.Debugf("Sending WatchSubscriptionsResponse %+v", response)
+		log.Infof("Sending WatchSubscriptionsResponse %+v", response)
 		err := server.Send(response)
 		if err != nil {
 			log.Warnf("Sending WatchSubscriptionResponse %+v failed: %s", response, err)
@@ -187,7 +187,7 @@ func (s *SubscriptionServer) WatchSubscriptions(request *e2api.WatchSubscription
 }
 
 func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e2api.SubscriptionService_SubscribeServer) error {
-	log.Infof("Received SubscribeRequest %+v", request)
+	log.Warnf("Received SubscribeRequest %+v", request)
 	encoding := request.Headers.Encoding
 
 	serviceModelOID, err := oid.ModelIDToOid(s.oidRegistry,
@@ -205,7 +205,7 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 	}
 
 	smData := serviceModelPlugin.ServiceModelData()
-	log.Debugf("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
+	log.Infof("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
 
 	if encoding != e2api.Encoding_PROTO && encoding != e2api.Encoding_ASN1_PER {
 		err = errors.NewNotSupported("encoding type %s is not supported", encoding)
@@ -266,7 +266,7 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 			channel.Status.Error = nil
 			now := time.Now()
 			channel.Status.Timestamp = &now
-			log.Infof("Channel exists; opening channel %+v", channel)
+			log.Warnf("Channel exists; opening channel %+v", channel)
 			if err := s.chans.Update(server.Context(), channel); err != nil {
 				log.Warnf("SubscribeRequest %+v failed", request, err)
 				if !errors.IsNotFound(err) && !errors.IsConflict(err) {
@@ -293,7 +293,7 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 			},
 		}
 
-		log.Infof("Creating channel %+v for Subscription request %+v", channel, request)
+		log.Warnf("Creating channel %+v for Subscription request %+v", channel, request)
 		if err := s.chans.Create(server.Context(), channel); err != nil {
 			log.Warnf("SubscribeRequest %+v failed %s", request, err)
 			if !errors.IsAlreadyExists(err) {
@@ -327,39 +327,35 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 			}
 			return err
 		}
-		log.Infof("SubscribeRequest %+v complete", request)
+		log.Warnf("SubscribeRequest %+v complete", request)
 		return nil
 	case <-server.Context().Done():
-		log.Infof("SubscribeRequest %+v closed", request)
+		log.Warnf("SubscribeRequest %+v closed", request)
 		return server.Context().Err()
 	}
 
 	for {
 		select {
-		case ind, ok := <-stream.Indications():
-			if !ok {
-				log.Warn("stream is closed")
-				continue
-			}
+		case ind := <-stream.Indications():
 			var ranFuncID int32
 			var ricActionID int32
 			var indHeaderAsn1 []byte
 			var indMessageAsn1 []byte
 			for _, v := range ind.GetProtocolIes() {
 				if v.Id == int32(v2.ProtocolIeIDRanfunctionID) {
-					ranFuncID = v.GetValue().GetRanfunctionId().GetValue()
+					ranFuncID = v.GetValue().GetRfId().GetValue()
 				}
 				if v.Id == int32(v2.ProtocolIeIDRicactionID) {
-					ricActionID = v.GetValue().GetRicactionId().GetValue()
+					ricActionID = v.GetValue().GetRaId().GetValue()
 				}
 				if v.Id == int32(v2.ProtocolIeIDRicindicationHeader) {
-					indHeaderAsn1 = v.GetValue().GetRicindicationHeader().GetValue()
+					indHeaderAsn1 = v.GetValue().GetRih().GetValue()
 				}
 				if v.Id == int32(v2.ProtocolIeIDRicindicationMessage) {
-					indMessageAsn1 = v.GetValue().GetRicindicationMessage().GetValue()
+					indMessageAsn1 = v.GetValue().GetRim().GetValue()
 				}
 			}
-			log.Infof("Ric Indication. Ran FundID: %d, Ric Action ID: %d", ranFuncID, ricActionID)
+			log.Warnf("Ric Indication. Ran FundID: %d, Ric Action ID: %d", ranFuncID, ricActionID)
 
 			response := &e2api.SubscribeResponse{
 				Headers: e2api.ResponseHeaders{
@@ -374,21 +370,21 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 					log.Errorf("Error transforming Header ASN Bytes to Proto %s", err.Error())
 					return errors.Status(errors.NewInvalid(err.Error())).Err()
 				}
-				log.Infof("Indication Header %d bytes", len(indHeaderProto))
+				log.Warnf("Indication Header %d bytes", len(indHeaderProto))
 
 				indMessageProto, err := serviceModelPlugin.IndicationMessageASN1toProto(indMessageAsn1)
 				if err != nil {
 					log.Errorf("Error transforming Message ASN Bytes to Proto %s", err.Error())
 					return errors.Status(errors.NewInvalid(err.Error())).Err()
 				}
-				log.Infof("Indication Message %d bytes", len(indMessageProto))
+				log.Warnf("Indication Message %d bytes", len(indMessageProto))
 				response.Message = &e2api.SubscribeResponse_Indication{
 					Indication: &e2api.Indication{
 						Header:  indHeaderProto,
 						Payload: indMessageProto,
 					},
 				}
-				log.Infof("RICIndication successfully decoded from ASN1 to Proto #Bytes - Header: %d, Message: %d",
+				log.Warnf("RICIndication successfully decoded from ASN1 to Proto #Bytes - Header: %d, Message: %d",
 					len(indHeaderProto), len(indMessageProto))
 			case e2api.Encoding_ASN1_PER:
 				response.Message = &e2api.SubscribeResponse_Indication{
@@ -402,7 +398,7 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 				return errors.Status(errors.NewInvalid("encoding type %v not supported", encoding)).Err()
 			}
 
-			log.Infof("Sending SubscribeResponse %+v", response)
+			log.Warnf("Sending SubscribeResponse %+v", response)
 			err = server.Send(response)
 			if err == io.EOF {
 				return nil
@@ -420,17 +416,17 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 				}
 				return err
 			}
-			log.Infof("SubscribeRequest %+v complete", request)
+			log.Warnf("SubscribeRequest %+v complete", request)
 			return nil
 		case <-server.Context().Done():
-			log.Infof("SubscribeRequest %+v closed", request)
+			log.Warnf("SubscribeRequest %+v closed", request)
 			return server.Context().Err()
 		}
 	}
 }
 
 func (s *SubscriptionServer) Unsubscribe(ctx context.Context, request *e2api.UnsubscribeRequest) (*e2api.UnsubscribeResponse, error) {
-	log.Infof("Received UnsubscribeRequest %+v", request)
+	log.Warnf("Received UnsubscribeRequest %+v", request)
 	channelID := e2api.ChannelID(fmt.Sprintf("%s:%s:%s:%s",
 		request.Headers.AppID,
 		request.Headers.AppInstanceID,
@@ -443,7 +439,7 @@ func (s *SubscriptionServer) Unsubscribe(ctx context.Context, request *e2api.Uns
 			return nil, errors.Status(err).Err()
 		}
 	} else if channel.Status.Phase != e2api.ChannelPhase_CHANNEL_CLOSED {
-		log.Infof("Closing subscription channel %s", channelID)
+		log.Warnf("Closing subscription channel %s", channelID)
 		channel.Status.Phase = e2api.ChannelPhase_CHANNEL_CLOSED
 		channel.Status.State = e2api.ChannelState_CHANNEL_PENDING
 		channel.Status.Error = nil
@@ -460,6 +456,6 @@ func (s *SubscriptionServer) Unsubscribe(ctx context.Context, request *e2api.Uns
 	}
 
 	response := &e2api.UnsubscribeResponse{}
-	log.Infof("Sending UnsubscribeResponse %+v", response)
+	log.Warnf("Sending UnsubscribeResponse %+v", response)
 	return response, nil
 }
