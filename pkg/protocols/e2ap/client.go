@@ -7,12 +7,12 @@ package e2ap
 import (
 	"context"
 
-	"github.com/onosproject/onos-lib-go/pkg/sctp/addressing"
-	"github.com/onosproject/onos-lib-go/pkg/sctp/types"
+	"github.com/wangxn2015/onos-lib-go/pkg/sctp/addressing"
+	"github.com/wangxn2015/onos-lib-go/pkg/sctp/types"
 
 	"github.com/onosproject/onos-e2t/pkg/protocols/e2ap/procedures"
 
-	sctp "github.com/onosproject/onos-lib-go/pkg/sctp"
+	sctp "github.com/wangxn2015/onos-lib-go/pkg/sctp"
 )
 
 // ClientHandler is a client handler function

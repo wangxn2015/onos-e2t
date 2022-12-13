@@ -17,7 +17,7 @@ import (
 	e2smkpmv2 "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go/pdubuilder"
 	kpmv2types "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_kpm_v2_go/v2/e2sm-kpm-v2-go"
 	rcpdubuilder "github.com/onosproject/onos-e2-sm/servicemodels/e2sm_rc_pre_go/pdubuilder"
-	"github.com/onosproject/onos-ric-sdk-go/pkg/e2/creds"
+	"github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/creds"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/protobuf/proto"

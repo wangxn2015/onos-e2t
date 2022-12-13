@@ -11,7 +11,7 @@ import (
 
 	"github.com/onosproject/onos-e2t/test/e2utils"
 
-	sdkclient "github.com/onosproject/onos-ric-sdk-go/pkg/e2/v1beta1"
+	sdkclient "github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/v1beta1"
 
 	"github.com/onosproject/helmit/pkg/kubernetes"
 

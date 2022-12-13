@@ -10,7 +10,7 @@ import (
 	"github.com/onosproject/helmit/pkg/test"
 	"github.com/onosproject/onos-e2t/test/utils"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	testutils "github.com/onosproject/onos-ric-sdk-go/pkg/utils"
+	testutils "github.com/wangxn2015/onos-ric-sdk-go/pkg/utils"
 )
 
 func init() {

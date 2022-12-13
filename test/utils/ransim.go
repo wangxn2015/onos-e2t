@@ -18,7 +18,7 @@ import (
 	ransimtypes "github.com/onosproject/onos-api/go/onos/ransim/types"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/onosproject/onos-ric-sdk-go/pkg/e2/creds"
+	"github.com/wangxn2015/onos-ric-sdk-go/pkg/e2/creds"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

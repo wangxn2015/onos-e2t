@@ -9,6 +9,7 @@ import (
 	"fmt"
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
+	"github.com/prometheus/common/log"
 	"sync"
 )
 
@@ -59,7 +60,7 @@ func (s *channelBuffer) write(ind *e2appducontents.Ricindication) {
 		return
 	}
 	if s.buffer.Len() == bufferMaxSize {
-		//log.Warnf("Discarded indication: maximum buffer size has been reached for the transaction")
+		log.Warnf("Discarded indication: maximum buffer size has been reached for the transaction")
 	}
 	s.buffer.PushBack(ind)
 	s.cond.Signal()
