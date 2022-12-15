@@ -8,12 +8,12 @@ import (
 	"github.com/atomix/atomix-go-client/pkg/atomix"
 	"github.com/onosproject/onos-e2t/pkg/controller/configuration"
 	"github.com/onosproject/onos-e2t/pkg/controller/controlrelation"
-	"github.com/onosproject/onos-e2t/pkg/controller/e2t"
 	nbstream "github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
 	e2v1beta1service "github.com/onosproject/onos-e2t/pkg/northbound/e2/v1beta1"
 	sbstream "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
 	chanstore "github.com/onosproject/onos-e2t/pkg/store/channel"
 	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/e2t"
 
 	"github.com/onosproject/onos-e2t/pkg/store/rnib"
 
@@ -42,6 +42,10 @@ type Config struct {
 	E2Port              int
 	TopoAddress         string
 	ServiceModelPlugins []string
+	//----wxn----------
+	E2NodeContainerMode string
+	E2tInterface0IP     string
+	E2tInterface0Port   int
 }
 
 // NewManager creates a new manager
@@ -163,8 +167,15 @@ func (m *Manager) startConfigurationController(rnib rnib.Store, mgmtConns e2serv
 }
 
 func (m *Manager) startE2TController(rnib rnib.Store) error {
-	e2tController := e2t.NewController(rnib)
-	return e2tController.Start()
+	if m.Config.E2NodeContainerMode == "false" {
+		//TODO: add the ip and port here
+		e2tController := e2t.NewControllerWithE2tInterface0(rnib)
+		return e2tController.Start()
+	} else {
+		e2tController := e2t.NewController(rnib)
+		return e2tController.Start()
+	}
+
 }
 
 // startTopov1alpha1Controller starts the topo controller

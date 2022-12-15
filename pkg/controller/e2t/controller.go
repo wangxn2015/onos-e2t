@@ -42,6 +42,20 @@ func NewController(rnib rnib.Store) *controller.Controller {
 	return c
 }
 
+// NewController returns a new E2T controller
+func NewControllerWithE2tInterface0(rnib rnib.Store) *controller.Controller {
+	c := controller.NewController("E2T")
+	c.Watch(&Watcher{
+		rnib: rnib,
+	})
+
+	c.Reconcile(&Reconciler{
+		rnib: rnib,
+	})
+
+	return c
+}
+
 // Reconciler is an E2T reconciler
 type Reconciler struct {
 	rnib rnib.Store
