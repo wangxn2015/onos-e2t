@@ -169,7 +169,7 @@ func (m *Manager) startConfigurationController(rnib rnib.Store, mgmtConns e2serv
 func (m *Manager) startE2TController(rnib rnib.Store) error {
 	if m.Config.E2NodeContainerMode == "false" {
 		//TODO: add the ip and port here
-		e2tController := e2t.NewControllerWithE2tInterface0(rnib)
+		e2tController := e2t.NewControllerWithE2tInterface0(rnib, m.Config.E2tInterface0IP, m.Config.E2tInterface0Port)
 		return e2tController.Start()
 	} else {
 		e2tController := e2t.NewController(rnib)

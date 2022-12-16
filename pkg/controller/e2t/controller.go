@@ -42,24 +42,35 @@ func NewController(rnib rnib.Store) *controller.Controller {
 	return c
 }
 
-// NewController returns a new E2T controller
-func NewControllerWithE2tInterface0(rnib rnib.Store) *controller.Controller {
+// NewController returns a new E2T controller //wxn
+func NewControllerWithE2tInterface0(rnib rnib.Store, e2tInterface0IP string, e2tInterface0Port int) *controller.Controller {
 	c := controller.NewController("E2T")
 	c.Watch(&Watcher{
 		rnib: rnib,
 	})
 
 	c.Reconcile(&Reconciler{
-		rnib: rnib,
+		rnib:                rnib,
+		E2NodeContainerMode: "false",
+		E2tInterface0IP:     e2tInterface0IP,
+		E2tInterface0Port:   e2tInterface0Port,
 	})
 
 	return c
 }
 
-// Reconciler is an E2T reconciler
+// Reconciler is an E2T reconciler //wxn
 type Reconciler struct {
-	rnib rnib.Store
+	rnib                rnib.Store
+	E2NodeContainerMode string
+	E2tInterface0IP     string
+	E2tInterface0Port   int
 }
+
+//// Reconciler is an E2T reconciler
+//type Reconciler struct {
+//	rnib rnib.Store
+//}
 
 func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 	log.Infof("Creating E2T entity %s", e2tID)
@@ -75,14 +86,29 @@ func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 		Labels:  map[string]string{},
 	}
 	interfaces := make([]*topoapi.Interface, 2)
-	interfaces[0] = &topoapi.Interface{
-		//by wxn to enable RAN to run outside RIC node
-		IP:   "192.168.127.113",
-		Port: 36401,
-		//---------------------------
-		//IP:   env.GetPodIP(),
-		//Port: defaultE2APPort,
-		Type: topoapi.Interface_INTERFACE_E2AP200,
+
+	if r.E2NodeContainerMode == "false" {
+		interfaces[0] = &topoapi.Interface{
+			//by wxn to enable RAN to run outside RIC node
+			IP:   r.E2tInterface0IP,
+			Port: uint32(r.E2tInterface0Port),
+			//---------------------------
+			//IP:   env.GetPodIP(),
+			//Port: defaultE2APPort,
+			Type: topoapi.Interface_INTERFACE_E2AP200,
+		}
+		log.Warnf("wxn: E2 nodes using non-container mode to connect. Conn: %s : %v", r.E2tInterface0IP, uint32(r.E2tInterface0Port))
+	} else {
+		interfaces[0] = &topoapi.Interface{
+			////by wxn to enable RAN to run outside RIC node
+			//IP:   "192.168.127.113",
+			//Port: 36401,
+			//---------------------------
+			IP:   env.GetPodIP(),
+			Port: defaultE2APPort,
+			Type: topoapi.Interface_INTERFACE_E2AP200,
+		}
+		log.Warnf("wxn: E2 nodes using container mode to connect. Conn: %s : %v", env.GetPodIP(), defaultE2APPort)
 	}
 
 	interfaces[1] = &topoapi.Interface{
