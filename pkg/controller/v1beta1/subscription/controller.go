@@ -90,7 +90,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	defer cancel()
 
 	subID := id.Value.(e2api.SubscriptionID)
-	log.Warnf("Reconciling Subscription '%s'", subID)
+	log.Warnf("Reconciling Subscription '%s'", subID) //Reconciling Subscription '019bca523817cfffa6e36c9e4306ce3b:e2:1/5153'
 	sub, err := r.subs.Get(ctx, subID)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -230,7 +230,7 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 			return controller.Result{}, err
 		}
 
-		stream := r.streams.Open(sub.ID)
+		stream := r.streams.Open(sub.ID) //开启一个stream
 
 		ricRequest := types.RicRequest{
 			RequestorID: types.RicRequestorID(stream.StreamID()),
