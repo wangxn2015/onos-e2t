@@ -10,8 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/wangxn2015/onos-e2t/pkg/manager"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 type arrayFlags []string

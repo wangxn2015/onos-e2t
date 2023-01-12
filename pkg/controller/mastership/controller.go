@@ -10,11 +10,11 @@ import (
 	"time"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 const defaultTimeout = 300 * time.Second
@@ -68,7 +68,7 @@ func (r *Reconciler) reconcileMastershipElection(e2Node *topoapi.Object) (contro
 }
 
 func (r *Reconciler) updateE2NodeMaster(ctx context.Context, e2Node *topoapi.Object) error {
-	log.Infof("Verifying mastership for E2Node '%s'", e2Node.GetID())
+	log.Warnf("Verifying mastership for E2Node '%s'", e2Node.GetID())
 	e2NodeEntity, err := r.rnib.Get(ctx, e2Node.GetID())
 	if err != nil {
 		if !errors.IsNotFound(err) {
@@ -99,7 +99,7 @@ func (r *Reconciler) updateE2NodeMaster(ctx context.Context, e2Node *topoapi.Obj
 	mastership := &topoapi.MastershipState{}
 	_ = e2NodeEntity.GetAspect(mastership)
 	if _, ok := e2NodeRelations[mastership.NodeId]; !ok {
-		log.Infof("Updating MastershipState for E2Node '%s'", e2Node.GetID())
+		log.Warnf("Updating MastershipState for E2Node '%s'", e2Node.GetID())
 		if len(e2NodeRelations) == 0 {
 			log.Warnf("No controls relations found for E2Node entity '%s'", e2Node.GetID())
 			return nil

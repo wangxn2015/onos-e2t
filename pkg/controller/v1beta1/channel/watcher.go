@@ -7,14 +7,14 @@ package channel
 import (
 	"context"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 	"sync"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	chanstore "github.com/onosproject/onos-e2t/pkg/store/channel"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
+	chanstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
 )
 
 const queueSize = 100
@@ -146,7 +146,7 @@ func (w *TopoWatcher) Start(ch chan<- controller.ID) error {
 
 	go func() {
 		for event := range eventCh {
-			log.Infof("Received topo event '%s'", event.Object.ID)
+			log.Warnf("Received topo event '%s'", event.Object.ID)
 			if entity, ok := event.Object.Obj.(*topoapi.Object_Entity); ok &&
 				entity.Entity.KindID == topoapi.E2T {
 				channels, err := w.chans.List(ctx)

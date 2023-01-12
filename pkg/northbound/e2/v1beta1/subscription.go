@@ -12,22 +12,22 @@ import (
 	"time"
 
 	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	"github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
+	"github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	"github.com/gogo/protobuf/proto"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
 
-	channelstore "github.com/onosproject/onos-e2t/pkg/store/channel"
+	channelstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
 
-	"github.com/onosproject/onos-e2t/pkg/oid"
+	"github.com/wangxn2015/onos-e2t/pkg/oid"
 
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-lib-go/pkg/northbound"
+	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
 	"google.golang.org/grpc"
 )
 
@@ -79,7 +79,7 @@ type SubscriptionServer struct {
 }
 
 func (s *SubscriptionServer) GetChannel(ctx context.Context, request *e2api.GetChannelRequest) (*e2api.GetChannelResponse, error) {
-	log.Infof("Received GetChannelRequest %+v", request)
+	log.Warnf("Received GetChannelRequest %+v", request)
 	channel, err := s.chans.Get(ctx, request.ChannelID)
 	if err != nil {
 		log.Warnf("GetChannelRequest %+v failed: %s", request, err)
@@ -88,12 +88,12 @@ func (s *SubscriptionServer) GetChannel(ctx context.Context, request *e2api.GetC
 	response := &e2api.GetChannelResponse{
 		Channel: *channel,
 	}
-	log.Infof("Sending GetChannelResponse %+v", response)
+	log.Warnf("Sending GetChannelResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) ListChannels(ctx context.Context, request *e2api.ListChannelsRequest) (*e2api.ListChannelsResponse, error) {
-	log.Infof("Received ListChannelsRequest %+v", request)
+	log.Warnf("Received ListChannelsRequest %+v", request)
 	channels, err := s.chans.List(ctx)
 	if err != nil {
 		log.Warnf("ListChannelsRequest %+v failed: %s", request, err)
@@ -102,12 +102,12 @@ func (s *SubscriptionServer) ListChannels(ctx context.Context, request *e2api.Li
 	response := &e2api.ListChannelsResponse{
 		Channels: channels,
 	}
-	log.Infof("Sending ListChannelsResponse %+v", response)
+	log.Warnf("Sending ListChannelsResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, server e2api.SubscriptionAdminService_WatchChannelsServer) error {
-	log.Infof("Received WatchChannelsRequest %+v", request)
+	log.Warnf("Received WatchChannelsRequest %+v", request)
 	eventCh := make(chan e2api.ChannelEvent)
 	var opts []channelstore.WatchOption
 	if !request.NoReplay {
@@ -122,7 +122,7 @@ func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, 
 		response := &e2api.WatchChannelsResponse{
 			Event: event,
 		}
-		log.Infof("Sending WatchChannelsResponse %+v", response)
+		log.Warnf("Sending WatchChannelsResponse %+v", response)
 		err := server.Send(response)
 		if err != nil {
 			log.Warnf("Sending WatchChannelsResponse %+v failed: %s", response, err)
@@ -133,7 +133,7 @@ func (s *SubscriptionServer) WatchChannels(request *e2api.WatchChannelsRequest, 
 }
 
 func (s *SubscriptionServer) GetSubscription(ctx context.Context, request *e2api.GetSubscriptionRequest) (*e2api.GetSubscriptionResponse, error) {
-	log.Infof("Received GetSubscriptionRequest %+v", request)
+	log.Warnf("Received GetSubscriptionRequest %+v", request)
 	sub, err := s.subs.Get(ctx, request.SubscriptionID)
 	if err != nil {
 		log.Warnf("GetSubscriptionRequest %+v failed: %s", request, err)
@@ -142,12 +142,12 @@ func (s *SubscriptionServer) GetSubscription(ctx context.Context, request *e2api
 	response := &e2api.GetSubscriptionResponse{
 		Subscription: *sub,
 	}
-	log.Infof("Sending GetSubscriptionResponse %+v", response)
+	log.Warnf("Sending GetSubscriptionResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) ListSubscriptions(ctx context.Context, request *e2api.ListSubscriptionsRequest) (*e2api.ListSubscriptionsResponse, error) {
-	log.Infof("Received ListSubscriptionsRequest %+v", request)
+	log.Warnf("Received ListSubscriptionsRequest %+v", request)
 	subs, err := s.subs.List(ctx)
 	if err != nil {
 		log.Warnf("ListSubscriptionsRequest %+v failed: %s", request, err)
@@ -156,12 +156,12 @@ func (s *SubscriptionServer) ListSubscriptions(ctx context.Context, request *e2a
 	response := &e2api.ListSubscriptionsResponse{
 		Subscriptions: subs,
 	}
-	log.Infof("Sending ListSubscriptionsResponse %+v", response)
+	log.Warnf("Sending ListSubscriptionsResponse %+v", response)
 	return response, nil
 }
 
 func (s *SubscriptionServer) WatchSubscriptions(request *e2api.WatchSubscriptionsRequest, server e2api.SubscriptionAdminService_WatchSubscriptionsServer) error {
-	log.Infof("Received WatchSubscriptionsRequest %+v", request)
+	log.Warnf("Received WatchSubscriptionsRequest %+v", request)
 	eventCh := make(chan e2api.SubscriptionEvent)
 	var opts []substore.WatchOption
 	if !request.NoReplay {
@@ -176,7 +176,7 @@ func (s *SubscriptionServer) WatchSubscriptions(request *e2api.WatchSubscription
 		response := &e2api.WatchSubscriptionsResponse{
 			Event: event,
 		}
-		log.Infof("Sending WatchSubscriptionsResponse %+v", response)
+		log.Warnf("Sending WatchSubscriptionsResponse %+v", response)
 		err := server.Send(response)
 		if err != nil {
 			log.Warnf("Sending WatchSubscriptionResponse %+v failed: %s", response, err)
@@ -205,7 +205,7 @@ func (s *SubscriptionServer) Subscribe(request *e2api.SubscribeRequest, server e
 	}
 
 	smData := serviceModelPlugin.ServiceModelData()
-	log.Infof("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
+	log.Warnf("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
 
 	if encoding != e2api.Encoding_PROTO && encoding != e2api.Encoding_ASN1_PER {
 		err = errors.NewNotSupported("encoding type %s is not supported", encoding)

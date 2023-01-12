@@ -12,14 +12,14 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 
 	e2ap_ies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
 
 	prototypes "github.com/gogo/protobuf/types"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	"github.com/onosproject/onos-e2t/api/e2ap/v2"
 	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
@@ -28,11 +28,11 @@ import (
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
-	e2 "github.com/onosproject/onos-e2t/pkg/protocols/e2ap"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdudecoder"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	e2 "github.com/wangxn2015/onos-e2t/pkg/protocols/e2ap"
 	//"github.com/onosproject/ran-simulator/pkg/utils/e2sm/kpm2/id/cellglobalid"
 	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 )
@@ -170,7 +170,7 @@ func (e *E2APServer) E2Setup(ctx context.Context, request *e2appducontents.E2Set
 					//----------------------------
 					//
 					if len(*onSetupRequest.E2Cells) == 0 {
-						log.Infof("wxn----> length of onSetupRequest.E2Cells is zero")
+						log.Warnf("wxn----> length of onSetupRequest.E2Cells is zero")
 						cellNcgi := uint64(87893173159116801)
 						nci := cellNcgi & 0xfffffffff
 						ncibs := &asn1.BitString{
@@ -204,8 +204,8 @@ func (e *E2APServer) E2Setup(ctx context.Context, request *e2appducontents.E2Set
 
 					if err != nil {
 						log.Warn(err)
-						log.Infof("Length of RAN function Description Bytes is: %d", len(onSetupRequest.RANFunctionDescription))
-						log.Infof("RAN Function Description Bytes in hex format: %v", hex.Dump(onSetupRequest.RANFunctionDescription))
+						log.Warnf("Length of RAN function Description Bytes is: %d", len(onSetupRequest.RANFunctionDescription))
+						log.Warnf("RAN Function Description Bytes in hex format: %v", hex.Dump(onSetupRequest.RANFunctionDescription))
 					}
 
 				}
@@ -330,7 +330,7 @@ func (e *E2APServer) E2ConfigurationUpdate(ctx context.Context, request *e2appdu
 		ProtocolIes: make([]*e2appducontents.E2NodeConfigurationUpdateAcknowledgeIes, 0),
 	}
 	e2ncua.SetTransactionID(trID)
-	log.Infof("Composed E2nodeConfigurationUpdateMessage is\n%v", e2ncua)
+	log.Warnf("Composed E2nodeConfigurationUpdateMessage is\n%v", e2ncua)
 	log.Warnf("Sending config update ack to e2 node: %s", e.e2apConn.E2NodeID)
 	//--------------wxn : note here
 	e.e2apConns.open(e.e2apConn)

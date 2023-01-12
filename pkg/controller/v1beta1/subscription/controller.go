@@ -9,29 +9,29 @@ import (
 	"time"
 
 	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
-	"github.com/onosproject/onos-e2t/pkg/controller/utils"
-	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/onosproject/onos-e2t/pkg/oid"
+	"github.com/wangxn2015/onos-e2t/pkg/oid"
 
 	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
 
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
 	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
-	"github.com/onosproject/onos-e2t/pkg/config"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-e2t/pkg/config"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 const defaultTimeout = 30 * time.Second
@@ -94,7 +94,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	sub, err := r.subs.Get(ctx, subID)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			log.Infof("Subscription '%s' not found", subID)
+			log.Warnf("Subscription '%s' not found", subID)
 			return controller.Result{}, nil
 		}
 		log.Errorf("Failed to reconcile Subscription '%s'", subID, err)
@@ -131,7 +131,7 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 		return controller.Result{}, nil
 	}
 
-	log.Infof("Fetching mastership state for E2Node '%s'", sub.E2NodeID)
+	log.Warnf("Fetching mastership state for E2Node '%s'", sub.E2NodeID)
 
 	// Get the E2 node entity from topo
 	e2NodeEntity, err := r.topo.Get(ctx, topoapi.ID(sub.E2NodeID))
@@ -255,14 +255,14 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 		}
 
 		// Send the subscription request and await a response
-		log.Infof("Sending RicsubscriptionDeleteRequest %+v", request)
+		log.Warnf("Sending RicsubscriptionDeleteRequest %+v", request)
 		response, failure, err := subMasterConn.RICSubscriptionDelete(ctx, request)
 		if err != nil {
 			log.Warnf("Failed to send E2ApPdu %+v for Subscription '%s'", request, sub.ID, err)
 			return controller.Result{}, err
 		} else if response != nil {
 			defer stream.Close()
-			log.Infof("Received RicsubscriptionDeleteResponse %+v", response)
+			log.Warnf("Received RicsubscriptionDeleteResponse %+v", response)
 			log.Warnf("Updating Subscription '%s' mastership to term %d", sub.ID, e2NodeMastershipTerm)
 			sub.Status.Term = e2NodeMastershipTerm
 			sub.Status.Master = e2NodeMasterID
@@ -324,7 +324,7 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 
 	// If this node is the master, create the subscription on the E2 node if hasn't already been created.
 	if localInstanceID != e2NodeMasterInstanceID {
-		log.Infof("Not the master for E2Node '%s'", sub.E2NodeID)
+		log.Warnf("Not the master for E2Node '%s'", sub.E2NodeID)
 		return controller.Result{}, nil
 	}
 
@@ -401,7 +401,7 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 		return controller.Result{}, nil
 	}
 	smData := serviceModelPlugin.ServiceModelData()
-	log.Infof("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
+	log.Warnf("Service model found %s %s %s", smData.Name, smData.Version, smData.OID)
 
 	stream := r.streams.Open(sub.ID)
 
@@ -448,7 +448,7 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 				},
 			},
 		}
-		log.Infof("Updating failed Subscription %+v", sub)
+		log.Warnf("Updating failed Subscription %+v", sub)
 		err := r.subs.Update(ctx, sub)
 		if err != nil {
 			log.Warnf("Failed to reconcile Subscription %+v: %s", sub, err)
@@ -458,13 +458,13 @@ func (r *Reconciler) reconcileOpenSubscription(sub *e2api.Subscription) (control
 	}*/
 
 	// Send the subscription request and await a response
-	log.Infof("Sending RicsubscriptionRequest %+v", request)
+	log.Warnf("Sending RicsubscriptionRequest %+v", request)
 	response, failure, err := e2NodeMasterConn.RICSubscription(ctx, request)
 	if err != nil {
 		log.Warnf("Failed to send E2ApPdu %+v for Subscription '%s'", request, sub.ID, err)
 		return controller.Result{}, err
 	} else if response != nil {
-		log.Infof("Received RicsubscriptionResponse %+v", response)
+		log.Warnf("Received RicsubscriptionResponse %+v", response)
 		log.Warnf("Completing Subscription '%s'", sub.ID)
 		sub.Status.State = e2api.SubscriptionState_SUBSCRIPTION_COMPLETE
 		log.Info(sub)
@@ -515,7 +515,7 @@ func (r *Reconciler) reconcileClosedSubscription(sub *e2api.Subscription) (contr
 		return controller.Result{}, nil
 	}
 
-	log.Infof("Fetching mastership state for E2Node '%s'", sub.E2NodeID)
+	log.Warnf("Fetching mastership state for E2Node '%s'", sub.E2NodeID)
 	e2NodeRelation, err := r.topo.Get(ctx, topoapi.ID(sub.Status.Master))
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -579,14 +579,14 @@ func (r *Reconciler) reconcileClosedSubscription(sub *e2api.Subscription) (contr
 	}
 
 	// Send the subscription request and await a response
-	log.Infof("Sending RicsubscriptionDeleteRequest %+v", request)
+	log.Warnf("Sending RicsubscriptionDeleteRequest %+v", request)
 	response, failure, err := conn.RICSubscriptionDelete(ctx, request)
 	if err != nil {
 		log.Warnf("Failed to send E2ApPdu %+v for Subscription '%s'", request, sub.ID, err)
 		return controller.Result{}, err
 	} else if response != nil {
 		defer stream.Close()
-		log.Infof("Received RicsubscriptionDeleteResponse %+v", response)
+		log.Warnf("Received RicsubscriptionDeleteResponse %+v", response)
 		log.Warnf("Completing Subscription '%s'", sub.ID)
 		sub.Status.State = e2api.SubscriptionState_SUBSCRIPTION_COMPLETE
 		log.Info(sub)

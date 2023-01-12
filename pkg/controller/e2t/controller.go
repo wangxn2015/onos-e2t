@@ -8,15 +8,15 @@ import (
 	"context"
 	"time"
 
-	"github.com/onosproject/onos-lib-go/pkg/env"
+	"github.com/wangxn2015/onos-lib-go/pkg/env"
 
 	gogotypes "github.com/gogo/protobuf/types"
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-e2t/pkg/controller/utils"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 const (
@@ -73,7 +73,7 @@ type Reconciler struct {
 //}
 
 func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
-	log.Infof("Creating E2T entity %s", e2tID)
+	log.Warnf("Creating E2T entity %s", e2tID)
 	object := &topoapi.Object{
 		ID:   utils.GetE2TID(),
 		Type: topoapi.Object_ENTITY,
@@ -97,7 +97,7 @@ func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 			//Port: defaultE2APPort,
 			Type: topoapi.Interface_INTERFACE_E2AP200,
 		}
-		log.Warnf("wxn: E2 nodes using non-container mode to connect. Conn: %s : %v", r.E2tInterface0IP, uint32(r.E2tInterface0Port))
+		log.Warnf("wxn: E2 nodes using non-container mode can connect to Conn: %s : %v", r.E2tInterface0IP, uint32(r.E2tInterface0Port))
 	} else {
 		interfaces[0] = &topoapi.Interface{
 			////by wxn to enable RAN to run outside RIC node
@@ -108,7 +108,7 @@ func (r *Reconciler) createE2T(ctx context.Context, e2tID topoapi.ID) error {
 			Port: defaultE2APPort,
 			Type: topoapi.Interface_INTERFACE_E2AP200,
 		}
-		log.Warnf("wxn: E2 nodes using container mode to connect. Conn: %s : %v", env.GetPodIP(), defaultE2APPort)
+		log.Warnf("wxn: E2 nodes using container mode can to connect to Conn: %s : %v", env.GetPodIP(), defaultE2APPort)
 	}
 
 	interfaces[1] = &topoapi.Interface{
@@ -162,7 +162,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 
 			// Check if the the lease is expired
 			if lease.Expiration.Before(time.Now()) {
-				log.Infof("Deleting the expired lease for E2T with ID: %s", e2tID)
+				log.Warnf("Deleting the expired lease for E2T with ID: %s", e2tID)
 				err := r.rnib.Delete(ctx, object)
 				if !errors.IsNotFound(err) {
 					return controller.Result{}, err
@@ -189,14 +189,14 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 			// If the remaining time of lease is more than  half the lease duration, no need to renew the lease
 			// schedule the next renewal
 			if remainingTime > defaultExpirationDuration/2 {
-				log.Infof("No need to renew the lease for %s, the remaining lease time is %v seconds", e2tID, remainingTime)
+				log.Warnf("No need to renew the lease for %s, the remaining lease time is %v seconds", e2tID, remainingTime)
 				return controller.Result{
 					RequeueAfter: time.Until(lease.Expiration.Add(defaultExpirationDuration / 2 * -1)),
 				}, nil
 			}
 
 			// Renew the release to trigger the reconciler
-			log.Infof("Renew the lease for E2T with ID: %s", e2tID)
+			log.Warnf("Renew the lease for E2T with ID: %s", e2tID)
 			expiration := time.Now().Add(defaultExpirationDuration)
 			lease = &topoapi.Lease{
 				Expiration: &expiration,

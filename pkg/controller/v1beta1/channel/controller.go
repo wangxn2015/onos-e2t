@@ -9,18 +9,18 @@ import (
 	"time"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	"github.com/onosproject/onos-e2t/pkg/controller/utils"
-	"github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
+	"github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	chanstore "github.com/onosproject/onos-e2t/pkg/store/channel"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	chanstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
@@ -74,7 +74,7 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 	channel, err := r.chans.Get(ctx, channelID)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			log.Infof("Channel '%s' not found", channelID)
+			log.Warnf("Channel '%s' not found", channelID)
 			return controller.Result{}, nil
 		}
 		log.Errorf("Failed to reconcile Channel '%s'", channelID, err)
@@ -151,7 +151,7 @@ func (r *Reconciler) reconcileOpenChannel(ctx context.Context, channel *e2api.Ch
 
 	// If the subscription term has changed, close the channel stream and update the channel term and master
 	if channel.Status.Term < sub.Status.Term {
-		log.Infof("Fetching master relation for Subscription '%s'", sub.ID)
+		log.Warnf("Fetching master relation for Subscription '%s'", sub.ID)
 		e2NodeMasterRelation, err := r.topo.Get(ctx, topoapi.ID(sub.Status.Master))
 		if err != nil {
 			if errors.IsNotFound(err) {
@@ -180,7 +180,7 @@ func (r *Reconciler) reconcileOpenChannel(ctx context.Context, channel *e2api.Ch
 
 	// If the channel term is not set, skip reconciliation to wait for mastership election
 	if channel.Status.Term == 0 {
-		log.Infof("Master not set for Channel '%s'", channel.ID)
+		log.Warnf("Master not set for Channel '%s'", channel.ID)
 		return controller.Result{}, nil
 	}
 
@@ -224,7 +224,7 @@ func (r *Reconciler) reconcileOpenChannel(ctx context.Context, channel *e2api.Ch
 			// If the subscription is in a finished state, update the channel state
 			switch sub.Status.State {
 			case e2api.SubscriptionState_SUBSCRIPTION_COMPLETE:
-				log.Infof("Completing Channel '%s': Subscription complete", channel.ID)
+				log.Warnf("Completing Channel '%s': Subscription complete", channel.ID)
 				channel.Status.State = e2api.ChannelState_CHANNEL_COMPLETE
 				log.Info(channel)
 				if err := r.chans.Update(ctx, channel); err != nil && !errors.IsNotFound(err) && !errors.IsConflict(err) {
@@ -233,7 +233,7 @@ func (r *Reconciler) reconcileOpenChannel(ctx context.Context, channel *e2api.Ch
 				}
 				return controller.Result{}, nil
 			case e2api.SubscriptionState_SUBSCRIPTION_FAILED:
-				log.Infof("Failing Channel '%s': Subscription failed", channel.ID)
+				log.Warnf("Failing Channel '%s': Subscription failed", channel.ID)
 				channel.Status.State = e2api.ChannelState_CHANNEL_FAILED
 				channel.Status.Error = sub.Status.Error
 				log.Info(channel)
@@ -292,7 +292,7 @@ func (r *Reconciler) reconcileOpenChannel(ctx context.Context, channel *e2api.Ch
 			return controller.Result{}, nil
 		}
 
-		log.Infof("Rescheduling reconciliation for Channel '%s' at %v", channel.ID, expireTime)
+		log.Warnf("Rescheduling reconciliation for Channel '%s' at %v", channel.ID, expireTime)
 		return controller.Result{
 			RequeueAt: expireTime,
 		}, nil
@@ -316,7 +316,7 @@ func (r *Reconciler) reconcileClosedChannel(ctx context.Context, channel *e2api.
 	localInstanceID := e2api.E2TInstanceID(utils.GetE2TID())
 	masterInstanceID := e2api.E2TInstanceID(channel.Status.Master)
 	if channel.Status.Term > 0 && localInstanceID != masterInstanceID {
-		log.Infof("Fetching master entity for Channel '%s'", channel.ID)
+		log.Warnf("Fetching master entity for Channel '%s'", channel.ID)
 		_, err := r.topo.Get(ctx, topoapi.ID(masterInstanceID))
 		if err == nil {
 			log.Warnf("Not the master for Channel '%s'", channel.ID)

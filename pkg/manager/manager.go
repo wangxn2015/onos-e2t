@@ -6,29 +6,29 @@ package manager
 
 import (
 	"github.com/atomix/atomix-go-client/pkg/atomix"
-	"github.com/onosproject/onos-e2t/pkg/controller/configuration"
-	"github.com/onosproject/onos-e2t/pkg/controller/controlrelation"
-	nbstream "github.com/onosproject/onos-e2t/pkg/northbound/e2/stream"
-	e2v1beta1service "github.com/onosproject/onos-e2t/pkg/northbound/e2/v1beta1"
-	sbstream "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/stream"
-	chanstore "github.com/onosproject/onos-e2t/pkg/store/channel"
-	substore "github.com/onosproject/onos-e2t/pkg/store/subscription"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/configuration"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/controlrelation"
 	"github.com/wangxn2015/onos-e2t/pkg/controller/e2t"
+	nbstream "github.com/wangxn2015/onos-e2t/pkg/northbound/e2/stream"
+	e2v1beta1service "github.com/wangxn2015/onos-e2t/pkg/northbound/e2/v1beta1"
+	sbstream "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/stream"
+	chanstore "github.com/wangxn2015/onos-e2t/pkg/store/channel"
+	substore "github.com/wangxn2015/onos-e2t/pkg/store/subscription"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
-	"github.com/onosproject/onos-e2t/pkg/oid"
+	"github.com/wangxn2015/onos-e2t/pkg/oid"
 
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
 
-	"github.com/onosproject/onos-e2t/pkg/controller/mastership"
-	subctrlv1beta1 "github.com/onosproject/onos-e2t/pkg/controller/v1beta1/channel"
-	taskctrlv1beta1 "github.com/onosproject/onos-e2t/pkg/controller/v1beta1/subscription"
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
-	"github.com/onosproject/onos-lib-go/pkg/certs"
-	"github.com/onosproject/onos-lib-go/pkg/env"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/onos-lib-go/pkg/northbound"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/mastership"
+	subctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/channel"
+	taskctrlv1beta1 "github.com/wangxn2015/onos-e2t/pkg/controller/v1beta1/subscription"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	"github.com/wangxn2015/onos-lib-go/pkg/certs"
+	"github.com/wangxn2015/onos-lib-go/pkg/env"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
 )
 
 var log = logging.GetLogger()
@@ -168,7 +168,8 @@ func (m *Manager) startConfigurationController(rnib rnib.Store, mgmtConns e2serv
 
 func (m *Manager) startE2TController(rnib rnib.Store) error {
 	if m.Config.E2NodeContainerMode == "false" {
-		//TODO: add the ip and port here
+		//TODO: add the ip and port here  --wxn
+		log.Info("Creating E2T controller to connect non-Container E2Node")
 		e2tController := e2t.NewControllerWithE2tInterface0(rnib, m.Config.E2tInterface0IP, m.Config.E2tInterface0Port)
 		return e2tController.Start()
 	} else {

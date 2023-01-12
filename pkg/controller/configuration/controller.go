@@ -12,14 +12,14 @@ import (
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/onosproject/onos-e2t/pkg/controller/utils"
+	"github.com/wangxn2015/onos-e2t/pkg/controller/utils"
 
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
-	"github.com/onosproject/onos-lib-go/pkg/controller"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-lib-go/pkg/controller"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
 )
 
 var log = logging.GetLogger()
@@ -158,14 +158,14 @@ func (r *Reconciler) Reconcile(id controller.ID) (controller.Result, error) {
 }
 
 func (r *Reconciler) createE2Node(ctx context.Context, conn *e2server.ManagementConn) (bool, error) {
-	log.Infof("Creating E2 node %s for connection %v", conn.E2NodeID, conn.ID)
+	log.Warnf("Creating E2 node %s for connection %v", conn.E2NodeID, conn.ID)
 	object, err := r.rnib.Get(ctx, conn.E2NodeID)
 	if err != nil {
 		if !errors.IsNotFound(err) {
 			log.Warnf("Creating E2Node entity '%s' for connection '%s': %v", conn.E2NodeID, conn.ID, err)
 			return false, err
 		}
-		log.Infof("Creating E2Node entity '%s' for connection '%s'", conn.E2NodeID, conn.ID)
+		log.Warnf("Creating E2Node entity '%s' for connection '%s'", conn.E2NodeID, conn.ID)
 		object = &topoapi.Object{
 			ID:   conn.E2NodeID,
 			Type: topoapi.Object_ENTITY,
@@ -202,7 +202,7 @@ func (r *Reconciler) createE2Node(ctx context.Context, conn *e2server.Management
 	e2NodeAspect := &topoapi.E2Node{}
 	err = object.GetAspect(e2NodeAspect)
 	if err == nil {
-		log.Infof("E2 node %s aspect is already set ", conn.E2NodeID)
+		log.Warnf("E2 node %s aspect is already set ", conn.E2NodeID)
 		return false, nil
 	}
 
@@ -254,7 +254,7 @@ func (r *Reconciler) createE2Cell(ctx context.Context, conn *e2server.Management
 			return false, err
 		}
 
-		log.Infof("Creating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
+		log.Warnf("Creating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
 		object := &topoapi.Object{
 			ID:   cellID,
 			Type: topoapi.Object_ENTITY,
@@ -287,11 +287,11 @@ func (r *Reconciler) createE2Cell(ctx context.Context, conn *e2server.Management
 	e2CellAspect := &topoapi.E2Cell{}
 	err = object.GetAspect(e2CellAspect)
 	if err == nil {
-		log.Infof("E2 cell %s aspect is already set", cellID)
+		log.Warnf("E2 cell %s aspect is already set", cellID)
 		return false, nil
 	}
 
-	log.Infof("Updating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
+	log.Warnf("Updating E2Cell entity '%s' for connection '%s'", cell.CellGlobalID.Value, conn.ID)
 	err = object.SetAspect(cell)
 	if err != nil {
 		log.Warnf("Creating E2Cell entity '%s' for connection '%s': %v", cell.CellGlobalID.Value, conn.ID, err)
@@ -318,7 +318,7 @@ func (r *Reconciler) createE2CellRelation(ctx context.Context, conn *e2server.Ma
 			log.Warnf("Creating E2Cell '%s' relation '%s' for connection '%s': %v", cellID, relationID, conn.ID, err)
 			return false, err
 		}
-		log.Infof("Creating E2Cell '%s' relation '%s' for connection '%s'", cellID, relationID, conn.ID)
+		log.Warnf("Creating E2Cell '%s' relation '%s' for connection '%s'", cellID, relationID, conn.ID)
 		object := &topoapi.Object{
 			ID:   relationID,
 			Type: topoapi.Object_RELATION,

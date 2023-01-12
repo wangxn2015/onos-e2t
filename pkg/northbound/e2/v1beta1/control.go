@@ -11,7 +11,7 @@ import (
 	v2 "github.com/onosproject/onos-e2t/api/e2ap/v2"
 	e2ap_commondatatypes "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-commondatatypes"
 
-	"github.com/onosproject/onos-e2t/pkg/store/rnib"
+	"github.com/wangxn2015/onos-e2t/pkg/store/rnib"
 
 	e2appducontents "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-pdu-contents"
 	"google.golang.org/grpc/codes"
@@ -19,23 +19,23 @@ import (
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
 
-	"github.com/onosproject/onos-e2t/pkg/oid"
+	"github.com/wangxn2015/onos-e2t/pkg/oid"
 
 	e2apies "github.com/onosproject/onos-e2t/api/e2ap/v2/e2ap-ies"
 
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/pdubuilder"
 
-	"github.com/onosproject/onos-e2t/pkg/config"
 	"github.com/onosproject/onos-e2t/pkg/southbound/e2ap/types"
+	"github.com/wangxn2015/onos-e2t/pkg/config"
 
-	"github.com/onosproject/onos-e2t/pkg/modelregistry"
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	"github.com/wangxn2015/onos-e2t/pkg/modelregistry"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
 
-	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/wangxn2015/onos-lib-go/pkg/errors"
 
 	e2api "github.com/onosproject/onos-api/go/onos/e2t/e2/v1beta1"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/onos-lib-go/pkg/northbound"
+	"github.com/wangxn2015/onos-lib-go/pkg/logging"
+	"github.com/wangxn2015/onos-lib-go/pkg/northbound"
 	"google.golang.org/grpc"
 )
 
@@ -84,7 +84,7 @@ type ControlServer struct {
 func (s *ControlServer) Control(ctx context.Context, request *e2api.ControlRequest) (*e2api.ControlResponse, error) {
 	log.Warnf("Received E2 Control Request %v", request)
 
-	log.Infof("Fetching mastership state for E2Node '%s'", request.Headers.E2NodeID)
+	log.Warnf("Fetching mastership state for E2Node '%s'", request.Headers.E2NodeID)
 	e2NodeEntity, err := s.topo.Get(ctx, topoapi.ID(request.Headers.E2NodeID))
 	if err != nil {
 		log.Warnf("Fetching mastership state for E2Node '%s' failed: %v", request.Headers.E2NodeID, err)

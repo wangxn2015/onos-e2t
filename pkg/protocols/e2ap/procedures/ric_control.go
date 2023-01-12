@@ -250,7 +250,7 @@ func (p *RICControlProcedure) Handle(requestPDU *e2appdudescriptions.E2ApPdu) {
 		}
 
 	} else {
-		log.Infof("RIC Control function does not have a response message")
+		log.Warnf("RIC Control function does not have a response message")
 	}
 }
 

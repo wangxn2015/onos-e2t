@@ -218,7 +218,7 @@ func (p *E2ConnectionUpdateProcedure) Handle(requestPDU *e2appdudescriptions.E2A
 		if err := requestPDU.Validate(); err != nil {
 			log.Errorf("E2 Connection Update response validation failed: %v", err)
 		} else {
-			log.Infof("Response PDU is following\n%v", responsePDU)
+			log.Warnf("Response PDU is following\n%v", responsePDU)
 			err := p.dispatcher(responsePDU)
 			if err != nil {
 				if err == context.Canceled || err == context.DeadlineExceeded || err == syscall.EPIPE || err == syscall.EBADF {

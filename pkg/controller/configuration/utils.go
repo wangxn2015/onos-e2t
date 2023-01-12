@@ -10,7 +10,7 @@ import (
 	"net"
 
 	topoapi "github.com/onosproject/onos-api/go/onos/topo"
-	e2server "github.com/onosproject/onos-e2t/pkg/southbound/e2ap/server"
+	e2server "github.com/wangxn2015/onos-e2t/pkg/southbound/e2ap/server"
 
 	"github.com/onosproject/onos-e2t/api/e2ap/v2"
 
