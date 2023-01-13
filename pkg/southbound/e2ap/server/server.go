@@ -37,6 +37,9 @@ import (
 	"github.com/onosproject/onos-lib-go/api/asn1/v1/asn1"
 )
 
+// oid for KPM, now used for fix an error
+const ranFunctionE2SmOid = "1.3.6.1.4.1.53148.1.2.2.2"
+
 var log = logging.GetLogger()
 
 // TODO: Change the RIC ID to something appropriate
@@ -169,7 +172,7 @@ func (e *E2APServer) E2Setup(ctx context.Context, request *e2appducontents.E2Set
 					//!!! -------ran's implementation skips kpm nodelist since it's only a kmpv203 instead of kpmv2.0
 					//----------------------------
 					//
-					if len(*onSetupRequest.E2Cells) == 0 {
+					if ranFunc.OID == ranFunctionE2SmOid && len(*onSetupRequest.E2Cells) == 0 {
 						log.Warnf("wxn----> length of onSetupRequest.E2Cells is zero")
 						cellNcgi := uint64(87893173159116801)
 						nci := cellNcgi & 0xfffffffff
