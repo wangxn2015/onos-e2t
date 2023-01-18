@@ -1067,6 +1067,8 @@ github.com/vishvananda/netns v0.0.0-20200728191858-db3c7e526aae/go.mod h1:DD4vA1
 github.com/wangxn2015/onos-lib-go v0.8.16-0.20221211095953-88ba820eb386/go.mod h1:te/HouPqR1JxHnNTIPcKMw/rvITMirXwRhYxSR4iu94=
 github.com/wangxn2015/onos-lib-go v0.8.16-0.20221215030935-42607b3b0737 h1:l1DOdfdnbqQZU9NxURymlgU2By8aE5snOaoK2OGzvHs=
 github.com/wangxn2015/onos-lib-go v0.8.16-0.20221215030935-42607b3b0737/go.mod h1:ObUDAbZ4hJtYZL8vB34OTKg4cYdw7bb0EcIH8E7XHLg=
+github.com/wangxn2015/onos-lib-go v0.8.16-0.20230116082947-30c78f852c02 h1:i5NMSZOQESInSsra2M4qo8oPr2I57BnfHgPUrJs5BUU=
+github.com/wangxn2015/onos-lib-go v0.8.16-0.20230116082947-30c78f852c02/go.mod h1:ObUDAbZ4hJtYZL8vB34OTKg4cYdw7bb0EcIH8E7XHLg=
 github.com/wangxn2015/onos-proxy v1.1.1-0.20221211102503-7b1c8fbd00a5 h1:+cTxYSp0VA45PFwGuDNjUKk2ukmYuq7zCE46OgTXWhk=
 github.com/wangxn2015/onos-proxy v1.1.1-0.20221211102503-7b1c8fbd00a5/go.mod h1:GgJPSqiSeR8DmFyXGDk/Ssy68zO0zUy6gXzpyxcP8fM=
 github.com/wangxn2015/onos-ric-sdk-go v0.8.9-0.20221212153731-3320d18f773e h1:WcCtyRxruq5IAlP3g1aS7yjtQWtdETpmPiaGqKk01OU=

@@ -20,7 +20,7 @@ require (
 	github.com/onosproject/onos-test v0.6.4
 	github.com/prometheus/common v0.26.0
 	github.com/stretchr/testify v1.7.1
-	github.com/wangxn2015/onos-lib-go v0.8.16-0.20221215030935-42607b3b0737
+	github.com/wangxn2015/onos-lib-go v0.8.16-0.20230116082947-30c78f852c02
 	github.com/wangxn2015/onos-ric-sdk-go v0.8.9-0.20221212153731-3320d18f773e
 	google.golang.org/grpc v1.41.0
 	google.golang.org/protobuf v1.27.1

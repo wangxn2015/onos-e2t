@@ -165,6 +165,13 @@ func (c *threadSafeConn) processRecvs() {
 		}
 		//log.Warnf("wxn-->receive--conn's localAddr: %s, remoteAddr: %s", c.conn.LocalAddr().String(), c.conn.RemoteAddr().String())
 
+		// TODO: need better solution for this
+		//wxn ----remove the EOF in onos-lib, and deal with it here ------------------
+		if n == 0 {
+			//log.Warn("wxn ---> EOF filter: n==0")
+			continue
+		}
+		//-----------------------------
 		err = c.processRecv(buf[:n])
 		if err != nil {
 			log.Error(err)
